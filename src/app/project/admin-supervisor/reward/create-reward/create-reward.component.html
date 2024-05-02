@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2"><a routerLink="../../" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a>Reward Task </h1>
+        </div>
+    </div>
+    <div class="row  my-3 justify-content-between">
+      <div class="col-5 col-md-5 col-lg-5">
+        <h1 class="my-2">Project Name:  {{projectDetail.project_name | titlecase}} </h1>
+      </div>
+      <!-- <div class="col-3 col-md-3 col-lg-3 text-end">
+        <h1 class="my-2">Budget:  {{projectDetail.budget_amount}} </h1>
+      </div> -->
+  </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <div class="mat-elevation-z8">
+              <table class="table " id="excel-table">
+                <thead >
+                    <tr >
+                      <th scope="col">Sl. No.</th>
+                      <th scope="col">Task  <i  *ngIf="arrow" (click)="sort('asc','task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">Description <i  *ngIf="arrow" (click)="sort('asc','description')" class="fa fa-sort-up"></i><i (click)="sort('desc','description')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">Start Time <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">End Time  <i  *ngIf="arrow" (click)="sort('asc','end_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','end_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">Reason <i  *ngIf="arrow" (click)="sort('asc','reason')" class="fa fa-sort-up"></i><i (click)="sort('desc','reason')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="allTasks.length==0">
+                    <tr class="no-data">
+                      <td colspan="14">No data available in table</td>
+                  </tr>
+                  </tbody>
+                  <tbody  *ngIf="allTasks.length!=0">
+                    <tr *ngFor='let item of allTasks |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index' >
+                     <td>{{i + 1 }}</td>
+                     <td>{{item.task_name }}</td>
+                     <td>{{item.description}}</td>
+                     <td>{{item.start_time |date: 'dd/MM/yyyy' }}</td>
+                     <td>{{item.end_time |date: 'dd/MM/yyyy'}}</td>
+                     <td>{{item.reason}}</td>
+                     <td  *ngIf="item.task_status==='Accepted' && role=='Project Owner'"> <button (click)="userId(item.id,item.user_id)"  data-bs-toggle="modal" data-bs-target="#rewardModal"  class="action-btn">Reward</button></td>
+                     <td  *ngIf="item.task_status==='Accepted' && role=='Supervisor'"> <p class="text-primary">pending</p></td>
+                     <td *ngIf="item.task_status==='Rewarded'"><p class="text-success">Rewarded</p></td>
+                    </tr>
+                  </tbody>
+              </table>
+    
+              </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+              
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+        showFirstLastButtons
+        (page)="pageChanged($event)"
+        aria-label="Select page of periodic elements">
+    </mat-paginator>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <!-- <form [formGroup]="rewardForm" >
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 col-md-12 col-lg-12 my-2">
+                <label for="">Reward Amount <span class="p-error">*</span></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12 my-2">
+                <input type="number" placeholder="Reward Amount" formControlName="wallet_amount">
+                <small *ngIf="error &&  f['wallet_amount'].invalid" class="p-error">Reward Amount is required.</small>
+                <small *ngIf="errorMessage" class="p-error">Reward Amount Should be less than or equal to budget amount.</small>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button #reward type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button id="reward" (click)="rewarding()" type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </form> -->
+      <div class="modal-body">
+        Are you sure want to Reward?
+      </div>
+      <div class="modal-footer">
+        <button #reward type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button id="reward" (click)="rewarding()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

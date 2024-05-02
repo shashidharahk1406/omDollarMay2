@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2"><a routerLink="../../view"><i class="fas fa-long-arrow-left"></i></a>Task Reward History</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2">Project Name: {{projectInfo.project_name}}</h1>
+        </div>
+    </div>
+    <div class="row  my-3 justify-content-between">
+        <!-- <div class="col-5 col-md-5 col-lg-3">
+            <input type="text" placeholder="Search Task Reward" [(ngModel)]="searchReward" >
+        </div> -->
+        <div class="col-7 col-md-7 col-lg-4">
+          <div class="input-group">
+            <input type="search"  class="form-control" placeholder="Search Task Reward" [(ngModel)]="searchReward"  >
+            <span class="input-group-text"> 
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-12 col-md-12">
+            <div class="mat-elevation-z8">
+              <table class="table " id="excel-table">
+                <thead >
+                    <tr >
+                      <th scope="col">Sl. No.</th>
+                      <th scope="col">Task Name  <i  *ngIf="arrow" (click)="sort('asc','task__task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task__task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">Volunteer  <i  *ngIf="arrow" (click)="sort('asc','rewarded_to__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','rewarded_to__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">OmDollar (OmDollar) </th>
+                      <!-- <th scope="col">Action</th> -->
+                      <!-- <th scope="col">Delete</th> -->
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="allReward.length==0">
+                    <tr class="no-data">
+                      <td colspan="14">No data available in table</td>
+                  </tr>
+                  </tbody>
+                  <tbody  *ngIf="allReward.length!=0">
+                    <tr *ngFor='let item of allReward|CustomFilter:searchReward |sort:directionValue:sortValue; let i=index' >
+                     <td>{{i + 1 }}</td>
+                     <td>{{item.task__task_name }}</td>
+                     <td>{{item.rewarded_to__user_name }}</td>
+                     <td>{{item.wallet_amount }}</td>
+                     <!-- <td><a (click)="viewTask(item.project_id)">View</a></td> -->
+                    
+                    </tr>
+                   
+                  </tbody>
+              </table>
+  
+              </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+              
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+        showFirstLastButtons
+        (page)="pageChanged($event)"
+        aria-label="Select page of periodic elements">
+  </mat-paginator>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,120 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2"><a routerLink="../../" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a>View Electors List</h1>
+        </div>
+    </div>
+    <!-- <div class="row justify-content-end my-3">
+        <div class="col-9 col-md-5 col-lg-3 ">
+            <a routerLink="../create"><button class="card-btn btn">&#43; Add Supervisors</button></a>
+        </div>
+    </div> -->
+    <div class="row mt-4">
+      <div class="col-12 col-md-6">
+        <h3>Project Name: {{projectInfo.project_name | titlecase}}</h3>
+      </div>
+      <div class="col-12 col-md-6">
+       <h3 class="text-end"> Maximum No. of Volunteer : {{projectInfo.total_people}}</h3>
+      </div>
+    </div>
+    <div class="row  my-3 justify-content-between">
+      <!-- <div class="col-5 col-md-5 col-lg-3">
+          <input type="text" placeholder="Search Bidders" [(ngModel)]="searchBidders" >
+      </div> -->
+      <div class="col-7 col-md-7 col-lg-4">
+        <div class="input-group">
+          <input type="search"  class="form-control" placeholder="Search Bidders" [(ngModel)]="searchBidders"  >
+          <span class="input-group-text"> 
+              <i class="fa fa-search" aria-hidden="true"></i>
+          </span>
+        </div>
+    </div>
+      
+  </div>
+    
+    <div class="row">
+      <div class="col-12 col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table " id="excel-table">
+              <thead >
+                  <tr >
+                    <th scope="col">Sl. No.</th>
+                    <th scope="col">Elector Name  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <!-- <th scope="col">Address <i  *ngIf="arrow" (click)="sort('asc','Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">History of Working <i  *ngIf="arrow" (click)="sort('asc','outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Rating  <i  *ngIf="arrow" (click)="sort('asc','estimation_completion_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimation_completion_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Bidding Details <i  *ngIf="arrow" (click)="sort('asc','budget_amount')" class="fa fa-sort-up"></i><i (click)="sort('desc','budget_amount')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <th scope="col" >Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="allBidders.length==0">
+                  <tr class="no-data">
+                    <td colspan="14">No data available in table</td>
+                </tr>
+                </tbody>
+                <tbody  *ngIf="allBidders.length!=0">
+                  <tr *ngFor='let item of allBidders |CustomFilter:searchBidders |sort:directionValue:sortValue; let i=index' >
+                   <td>{{i + 1 }}</td>
+                   <td>{{item.user__user_name }} </td>
+                   <!-- <td>{{item.Skillset}}</td>
+                   <td>{{item.outcome_required }}</td>
+                   <td>{{item.estimation_completion_time}}</td>
+                   <td>{{item.bidding_list}}</td> -->
+                   <td *ngIf="item.status_approval==='Applied' && role=='Project Owner' && no_of_accepted_volunteer<total_no_of_volunteer"> <button (click)="userId(item.user_id)"  data-bs-toggle="modal" data-bs-target="#acceptModal"  class="action-btn">Approve</button>
+                    <button (click)="userId(item.user_id)"  data-bs-toggle="modal" data-bs-target="#rejectModal"  class="action-btn reject">Reject</button></td>
+                    <td *ngIf="item.status_approval==='Approved' "><p class="text-success">Approved</p></td>
+                    <td *ngIf="item.status_approval==='Rejected'"><p class="text-danger">Rejected</p></td>
+                    <td *ngIf="item.status_approval==='Applied'&& no_of_accepted_volunteer==total_no_of_volunteer"><p class="text-primary">N.A</p></td>
+                    <td *ngIf="item.status_approval==='Applied' && role=='Supervisor' && no_of_accepted_volunteer<total_no_of_volunteer"><p class="text-success">Applied</p></td>
+                  </tr>
+                 
+                </tbody>
+            </table>
+  
+            </div>
+      </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-12">
+            
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+      aria-label="Select page of periodic elements">
+  </mat-paginator>
+    </div>
+  </div> -->
+</div>
+
+<div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to Approve?
+      </div>
+      <div class="modal-footer">
+        <button #accept type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button id="accept" (click)="approveRejectBidder('accept')" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to Reject?
+      </div>
+      <div class="modal-footer">
+        <button #reject type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button  id="reject" (click)="approveRejectBidder('reject')" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

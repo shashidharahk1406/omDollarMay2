@@ -1,0 +1,66 @@
+<form [formGroup]="createFaculty" (ngSubmit)="create()">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2">Create Supervisors</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Enter Supervisors Details</h2>
+            </div>
+        </div>
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input type="text" placeholder="Supervisors Name" formControlName="project_name">
+                            <small *ngIf="error &&  f['project_name'].invalid" class="p-error">Project Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Email Address</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input type="text" placeholder="Email Address" formControlName="project_name">
+                            <small *ngIf="error &&  f['project_name'].invalid" class="p-error">Project Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Mobile Number</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input  type="number" placeholder="Mobile Number" formControlName="project_name">
+                            <small *ngIf="error &&  f['project_name'].invalid" class="p-error">Project Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button class="card-btn btn" type="submit">
+                                <div  *ngIf="!isLoading">Create</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>
+    
+    
+</form>

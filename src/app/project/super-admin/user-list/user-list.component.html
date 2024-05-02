@@ -1,0 +1,111 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2">Users : {{totalPageLength}}</h1>
+        </div>
+    </div>
+    <div class="row  my-3 justify-content-between">
+        <div class="col-7 col-md-7 col-lg-4">
+            <div class="input-group">
+              <input type="search"  class="form-control" placeholder="Search User" [(ngModel)]="searchProject"  >
+              <span class="input-group-text"> 
+                  <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+        </div>
+        <div class="col-5 col-md-5 col-lg-3"  *ngIf="role=='Super Admin'">
+            <a routerLink="../create-user"><button class="card-btn btn ">&#43; Create User</button></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <div class="mat-elevation-z8">
+              <table class="table " id="excel-table">
+                <thead >
+                    <tr >
+                      <!-- <th scope="col">Sl. No.</th> -->
+                      <th scope="col"> Name  <i  *ngIf="arrow" (click)="sort('asc','user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col"> Email Id  <i  *ngIf="arrow" (click)="sort('asc','email')" class="fa fa-sort-up"></i><i (click)="sort('desc','email')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col"> Role  <i  *ngIf="arrow" (click)="sort('asc','role_id__name')" class="fa fa-sort-up"></i><i (click)="sort('desc','role_id__name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col"> Organization  <i  *ngIf="arrow" (click)="sort('asc','name_of_organisation')" class="fa fa-sort-up"></i><i (click)="sort('desc','name_of_organisation')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col"> Country <i  *ngIf="arrow" (click)="sort('asc','address_of_organisation')" class="fa fa-sort-up"></i><i (click)="sort('desc','address_of_organisation')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <!-- <th style="width: 80px;" scope="col"  *ngIf="role=='Super Admin'">Edit</th> -->
+                      <th  style="width: 80px;" scope="col" *ngIf="role=='Super Admin'">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="allUser.length==0">
+                    <tr class="no-data">
+                      <td colspan="14">No data available in table</td>
+                  </tr>
+                  </tbody>
+                  <tbody  >
+                    <tr *ngFor='let item of allUser |CustomFilter:searchProject |sort:directionValue:sortValue; let i=index' >
+                     <!-- <td>{{i + 1 }}</td> -->
+                     <td>{{item.user_name}}</td>
+                     <td>{{item.email }}</td>
+                     <!-- <td>{{item.estimated_hours }}</td> -->
+                     <!-- <td>{{rateCardLabel(item.estimated_rate_id)}}</td> -->
+                     <!-- <td>{{item.estimation_completion_time}}</td> -->
+                     <!-- <td>{{item.Skillset}}</td> -->
+                     <td>{{item.role_id__name}}</td>
+                     <td>{{item.name_of_organisation}}</td>
+                     <td>{{item.address_of_organisation}}</td>
+                     <!-- <td  *ngIf="role=='Super Admin'">
+                      <button (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" style="border: none;background-color: inherit;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></button> 
+                     </td> -->
+                     <td *ngIf="role=='Super Admin'">
+                      <button (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#deleteModal"  style="border: none;background-color: inherit;"  data-toggle="tooltip" data-placement="top" title="Delete" > <i class="fas fa-trash-alt" style="color: red;"></i></button> 
+                     </td>
+                    </tr>
+                   
+                  </tbody>
+              </table>
+  
+              </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+              
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+        showFirstLastButtons
+        (page)="pageChanged($event)"
+        aria-label="Select page of periodic elements">
+  </mat-paginator>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+        </div>
+        <div class="modal-body">
+          Are you sure want to edit?
+        </div>
+        <div class="modal-footer">
+          <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button (click)="editRoute()" type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+        </div>
+        <div class="modal-body">
+          Are you sure want to delete?
+        </div>
+        <div class="modal-footer">
+          <button #deleteClose type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>

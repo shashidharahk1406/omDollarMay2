@@ -1,0 +1,142 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%;font-family: "monts", Arial, Helvetica, sans-serif; }
+body { margin: 0; }
+body{
+  margin:0;
+  padding:0;
+}
+*{
+  box-sizing: border-box;
+}
+
+h1,h2,button,label{
+  font-family: "monts";
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "monts";
+
+}
+input[type="text"]
+{
+  font-family: "monts";
+}
+p{
+  font-family: "monts";
+}
+a{
+  text-decoration: none;
+}
+.multiselect-dropdown .dropdown-btn {
+  background-color: white!important;
+  width: 100%;
+  height: 42px;
+  border: solid 0.5px #8080804a;
+  padding: 10px;
+  border-radius: 8px;
+  color: #757575;
+
+}
+/* font */
+@font-face {
+  font-family: "monts";
+  src: url(assets/fonts/Montserrat-Medium.ttf) format("truetype");
+}
+  /* font */
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+  .modal-backdrop {
+    z-index: 0!important;
+    background-color: green;
+  }
+/* width */
+::-webkit-scrollbar {
+  
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url(assets/images/close.svg) no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 1;
+  font-size: 12px !important;
+}
+h5{
+  font-size: 14px!important;
+}
+
+
+
+
+
+tr{
+  height: 100% !important;
+}
+
+
+input,textarea{
+  width: 100%;
+  height: 35px;
+  border: solid 0.5px #8080804a;
+  /* padding: 15px; */
+  border-radius: 8px;
+  font-size: 14px !important;
+}
+
+
+.btn{
+  background-color: #005483;
+  color: #AAE5FF ;
+  font-size: 12px !important;
+  font-weight: bolder !important;
+  padding: 10px !important;
+}
+
+
+th{
+  font-size: 14px !important;
+}
+tbody{
+  font-size: 12px;
+  height: 100% !important;
+}
+
+
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #005483!important;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #005483;
+}

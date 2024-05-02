@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="row">
+      <div class="col-12 col-md-12">
+          <h1 class="my-2">My Projects : {{totalPageLength}}</h1>
+      </div>
+  </div>
+  <div class="row  my-3 justify-content-between">
+    <!-- <div class="col-5 col-md-5 col-lg-3">
+        <input type="text" placeholder="Search Project" [(ngModel)]="searchBidManagement" >
+    </div> -->
+    <div class="col-7 col-md-7 col-lg-4">
+      <div class="input-group">
+        <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchBidManagement"  >
+        <span class="input-group-text"> 
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+      </div>
+  </div>
+  <!-- <div class="col-5 col-md-5 col-lg-3"  *ngIf="role=='Volunteer'">
+    <a routerLink="../project-management/createTask"><button class="card-btn btn ">&#43; Create Project</button></a>
+</div> -->
+</div>
+  <div class="row">
+    <div class="col-12 col-md-12">
+        <div class="mat-elevation-z8">
+          <table class="table " id="excel-table">
+            <thead >
+                <tr >
+                  <!-- <th scope="col">Sl. No.</th> -->
+                  <th scope="col">Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <!-- <th scope="col">Outcome Required <i  *ngIf="arrow" (click)="sort('asc','project__outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <!-- <th scope="col">Estimated Hours <i  *ngIf="arrow" (click)="sort('asc','project__estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <!-- <th scope="col">Estimated Value Rate <i  *ngIf="arrow" (click)="sort('asc','estimated_rate_id')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_rate_id')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <!-- <th style="min-width: 180px;" scope="col">Estimation Completion Time <i  *ngIf="arrow" (click)="sort('asc','estimation_completion_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimation_completion_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <!-- <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','project__Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <th scope="col">OmDollar Rate (OmDollar/hour)</th>
+                  <th scope="col">Status <i  *ngIf="arrow" (click)="sort('asc','status_approval')" class="fa fa-sort-up"></i><i (click)="sort('desc','status_approval')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">Action</th>
+                  <!-- <th scope="col">Delete</th> -->
+                </tr>
+              </thead>
+              <tbody *ngIf="allApprovedProject.length==0">
+                <tr class="no-data">
+                  <td colspan="14">No data available in table</td>
+              </tr>
+              </tbody>
+              <tbody  *ngIf="allApprovedProject.length!=0">
+                <tr *ngFor='let item of allApprovedProject|CustomFilter:searchBidManagement |sort:directionValue:sortValue; let i=index' >
+                 <!-- <td>{{i + 1 }}</td> -->
+                 <td>{{item.project__project_name }}</td>
+                 <!-- <td>{{item.project__outcome_required }}</td> -->
+                 <!-- <td>{{item.project__estimated_hours }}</td> -->
+                 <!-- <td></td> -->
+                 <!-- <td>{{item.estimation_completion_time}}</td> -->
+                 <!-- <td>{{item.project__Skillset}}</td> -->
+                 <td>{{item.project__hourly_rate}}</td>
+                 <td>{{item.status_approval}}</td>
+                 <td data-toggle="tooltip" data-placement="top" title="View" ><a (click)="viewTask(item.project_id)">View</a></td>
+                
+                </tr>
+               
+              </tbody>
+          </table>
+
+          </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12">
+          
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+    showFirstLastButtons
+    (page)="pageChanged($event)"
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+  </div>
+</div>
+</div>
+
+

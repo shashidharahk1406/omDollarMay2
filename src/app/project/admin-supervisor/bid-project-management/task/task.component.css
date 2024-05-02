@@ -1,0 +1,28 @@
+a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }
+  .card-btn{
+    border: solid 0.5px gray;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: inherit;
+    font-family: "monts";
+    width: 100%;
+  }
+  .btn-color{
+    background-color: #155672;
+    color: #AAE5FF ;
+    width: 97%;
+  }
+  .modal-dialog-scrollable .modal-body {
+    height: 250px;
+  }
+  .p-error{
+    color: red;
+  }
+  
+::ng-deep .mat-tab-body-content{
+  overflow: hidden!important;
+}

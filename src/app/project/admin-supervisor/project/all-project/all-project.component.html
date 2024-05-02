@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="row">
+      <div class="col-12 col-md-12">
+          <h1 class="my-2">Projects : {{totalPageLength}}</h1>
+      </div>
+  </div>
+  <div class="row  my-3 justify-content-between">
+      <div class="col-7 col-md-7 col-lg-4">
+          <div class="input-group">
+            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject"  >
+            <span class="input-group-text"> 
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+      </div>
+      <div class="col-5 col-md-5 col-lg-3"  *ngIf="role=='Project Owner'">
+          <a routerLink="../create"><button class="card-btn btn ">&#43; Create Project</button></a>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-12 col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table " id="excel-table">
+              <thead >
+                  <tr >
+                    <!-- <th scope="col">Sl. No.</th> -->
+                    <th scope="col"> Name  <i  *ngIf="arrow" (click)="sort('asc','project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <!-- <th scope="col">Outcome Required <i  *ngIf="arrow" (click)="sort('asc','outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th scope="col">Estimated Hours <i  *ngIf="arrow" (click)="sort('asc','estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th scope="col">Estimated Value Rate <i  *ngIf="arrow" (click)="sort('asc','estimated_rate_id')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_rate_id')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th style="min-width: 180px;" scope="col">Estimation Completion Time <i  *ngIf="arrow" (click)="sort('asc','estimation_completion_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimation_completion_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <th scope="col">OmDollar Rate (OmDollar/Hour)</th>
+                    <th scope="col">Volunteer Count (No.) </th>
+                    <th scope="col">Status <i  *ngIf="arrow" (click)="sort('asc','project_status')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_status')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th *ngIf="role=='Project Owner'" scope="col">Supervisor <i  *ngIf="arrow" (click)="sort('asc','supervisor_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','supervisor_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th style="width: 80px;" scope="col"  *ngIf="role=='Project Owner'">Action</th>
+                    <!-- <th  style="width: 80px;" scope="col" *ngIf="role=='Project Owner'">Delete</th> -->
+                  </tr>
+                </thead>
+                <tbody *ngIf="allProject.length==0">
+                  <tr class="no-data">
+                    <td colspan="14">No data available in table</td>
+                </tr>
+                </tbody>
+                <tbody  >
+                  <tr *ngFor='let item of allProject |CustomFilter:searchProject |sort:directionValue:sortValue; let i=index' >
+                   <!-- <td>{{i + 1 }}</td> -->
+                   <td>{{item.project_name }}</td>
+                   <!-- <td>{{item.outcome_required }}</td> -->
+                   <!-- <td>{{item.estimated_hours }}</td> -->
+                   <!-- <td>{{rateCardLabel(item.estimated_rate_id)}}</td> -->
+                   <!-- <td>{{item.estimation_completion_time}}</td> -->
+                   <!-- <td>{{item.Skillset}}</td> -->
+                   <td>{{item.hourly_rate}}</td>
+                   <td>{{item.total_people}}</td>
+                   <td>{{statusLabel(item.project_status_id)}}</td>
+                   <td *ngIf="role=='Project Owner'">{{item.supervisor_name}}</td>
+                   <td *ngIf="role=='Project Owner'" >
+                    <div class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical"  ></i>
+               
+                      <ul class="dropdown-menu">
+                        <li (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" data-toggle="tooltip" data-placement="top" title="Edit">  <button  style="border: none;background-color: inherit;padding: 0px 15px;" ><i class="fas fa-edit"></i></button>Edit </li>
+                        <li *ngIf="!item.rewarded" (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#deleteModal" data-toggle="tooltip" data-placement="top" title="Delete" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  > <i class="fas fa-trash-alt" style="color: red;"></i></button>Delete </li>
+                        <li *ngIf="item.project_status_id!==3"  (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#projectClose"  data-toggle="tooltip" data-placement="top" title="Close" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  ><i class="fa-solid fa-xmark" style="color: black;"></i></button>Close</li>
+                      </ul>
+                      </div>
+                  </td>
+                  </tr>
+                 
+                </tbody>
+            </table>
+
+            </div>
+      </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-12">
+            
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+      aria-label="Select page of periodic elements">
+</mat-paginator>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to edit?
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="editRoute()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete?
+      </div>
+      <div class="modal-footer">
+        <button #deleteClose type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="delete()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="projectClose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to Close the project?
+      </div>
+      <div class="modal-footer">
+        <button #projectClose type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="close()" type="button" class="btn btn-primary" >Yes
+          
+      
+        </button>
+        <!-- <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+          <span  class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true">Loading...</span>
+         </div> -->
+        
+      </div>
+    </div>
+  </div>
+</div>

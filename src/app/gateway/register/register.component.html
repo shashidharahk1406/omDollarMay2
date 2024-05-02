@@ -1,0 +1,78 @@
+<div class="background">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="login-content">
+          <div class="row">
+              <div class="col-12">
+                  <h1>Register</h1>
+              </div>
+          </div>
+          <div class="row" *ngIf="errorAlert">
+              <div class="col-12">
+                  <div class="alert alert-danger" role="alert">
+                     <p class="p-error">{{errorMessage}}</p>
+                    </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                  <label for="">Username <span>*</span></label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                 <input type="text" placeholder="Username" formControlName="user_name">
+                 <small *ngIf="error &&  f['user_name'].invalid" class="p-error">Username is required.</small>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+                <label for="">Email Id <span>*</span></label>
+            </div>
+        </div>
+          <div class="row">
+              <div class="col-12">
+                 <input type="email" placeholder="Email Id" formControlName="email" >
+                 <small *ngIf="error &&  f['email'].invalid" class="p-error">Email Id is required.</small>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                  <label for="">Password <span>*</span></label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                <div class="input-group">
+                    <input [type]="password" class="form-control " placeholder="Password" formControlName="password"   >
+                    <span (click)="onClick()" class="input-group-text" id="basic-addon2"> 
+                        <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                        <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                    </span>
+                  </div>
+                 <small *ngIf="error &&  f['password'].invalid" class="p-error">Password is required.</small>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                 <button type="submit" >
+                    <div *ngIf="!isLoading">Register</div>
+                    <div  *ngIf="isLoading" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                </button>
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-12 text-center">
+                 <p>Want to <a routerLink="../login">Login?</a></p>
+              </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+               <p><a routerLink="../forgot-password">Forgot Password?</a></p>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  

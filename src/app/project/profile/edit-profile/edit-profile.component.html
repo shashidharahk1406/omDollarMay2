@@ -1,0 +1,165 @@
+<form [formGroup]="editProfileForm" (ngSubmit)="edit()">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a routerLink="/inner" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a>Edit Profile</h1>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Update Project Details</h2>
+            </div>
+        </div> -->
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">First Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="First Name" formControlName="first_name">
+                            <small *ngIf="error &&  f['first_name'].invalid" class="p-error">First Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Last Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Last Name" cols="100" formControlName="last_name" >
+                            <small *ngIf="error &&  f['last_name'].invalid" class="p-error">Last Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">User Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Username" cols="100"  formControlName="user_name">
+                            <small *ngIf="error &&  f['user_name'].invalid" class="p-error">Username is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Email <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="email" placeholder="Email" cols="100"  formControlName="email">
+                            <small *ngIf="error &&  f['email'].invalid" class="p-error">Email is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Role <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Role" cols="100"  formControlName="role_id__name" readonly>
+                            <small *ngIf="error &&  f['role_id__name'].invalid" class="p-error">Role is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Password <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="password" placeholder="Password" cols="100"  formControlName="password" >
+                            <small *ngIf="error &&  f['password'].invalid" class="p-error">Password is required.</small>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Location <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3 "> -->
+                            <!-- <textarea maxlength="100" placeholder="Location" cols="100"  formControlName="country"></textarea>
+                            <small *ngIf="error &&  f['country'].invalid" class="p-error">Location is required.</small> -->
+                            <!-- <select appCountryFlags  formControlName="location"  style="height: 42px;border-radius: 8px;width: 100%;border: solid 0.5px #8080804a;background: #ffff;">
+                                <option *ngFor="let country of allCountries" [value]="country.name">{{country.name}}</option>
+                                <small *ngIf="error &&  f['location'].invalid" class="p-error">Location is required.</small>
+                                
+                             </select>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Address<span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Address" cols="100"  formControlName="address"></textarea>
+                            <small *ngIf="error &&  f['address'].invalid" class="p-error">Address is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Age<span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="number" placeholder="Age" cols="100"  formControlName="age">
+                            <small *ngIf="error &&  f['age'].invalid" class="p-error">Age is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Phone Number <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="number" placeholder="Phone Number" formControlName="phone_number" >
+                            <small *ngIf="error &&  f['phone_number'].invalid" class="p-error">Phone Number is required.</small>
+                           
+                        </div>
+                      
+                    </div>
+                  
+
+                    <div class="row" *ngIf="role=='Volunteer'">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Resume Upload <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row"  *ngIf="role=='Volunteer'">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="file" placeholder="Resume"  (change)="onFileSelected($event)" accept=".pdf, .doc, .docx" >
+                            <!-- <small *ngIf="error &&  f['document'].invalid" class="p-error">Resume is required.</small> -->
+                           
+                        </div>
+                      
+                    </div>
+                  
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button class="card-btn btn" type="submit">
+                                <div  *ngIf="!isLoading">Update</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>    
+</form>

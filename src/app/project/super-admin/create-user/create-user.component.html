@@ -1,0 +1,165 @@
+<form [formGroup]="createUserForm" (ngSubmit)="create()"  autocomplete="off">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a routerLink="../" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a> Create User</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Enter User Details</h2>
+            </div>
+        </div>
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for=""> Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input maxlength="50" type="text" placeholder="Name" formControlName="user_name">
+                            <small *ngIf="error &&  f['user_name'].invalid" class="p-error">Name is required.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2" >
+                            <label for="">Terms & Conditions <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <textarea maxlength="100" placeholder="Terms & Conditions" cols="100"  formControlName="terms_and_conditions"></textarea>
+                            <small *ngIf="error &&  f['terms_and_conditions'].invalid" class="p-error">Terms & Conditions is required.</small>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Email id <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input  type="email" placeholder="Email id" formControlName="email"  autocomplete="false">
+                            <small *ngIf="error &&  f['email'].invalid" class="p-error">Email id is required.</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Password <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input  type="new-password" placeholder="Password" formControlName="password" class="password"  >
+                            <small *ngIf="error &&  f['password'].invalid" class="p-error">Password id is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Name of the Organization<span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input  type="email" placeholder="Name of the Organization" formControlName="name_of_organisation">
+                            <small *ngIf="error &&  f['email'].invalid" class="p-error">Email id is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                           
+                            <label for="">Country<span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+
+                            <select appCountryFlags  formControlName="address_of_organisation"  style="height: 42px;border-radius: 8px;width: 100%;border: solid 0.5px #8080804a;background: #ffff;">
+                               <option *ngFor="let country of allCountries" [value]="country.name">{{country.name}}</option>
+                               
+                            </select>
+                            <!-- <input  type="text" placeholder="Address of the Organization" formControlName="address_of_organisation"> -->
+                            <small *ngIf="error &&  f['address_of_organisation'].invalid" class="p-error">Country is required.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Estimated Value Rate</label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Estimated Value Rate'"  [settings]="valueRatingSetting"
+                            [data]="allRateCard" (onSelect)="onValueRatingSelect($event)"
+                             formControlName="estimated_rate_id">
+                        </ng-multiselect-dropdown>
+                            <small *ngIf="error &&  f['estimated_rate_id'].invalid" class="p-error">Estimated Value Rate is required.</small>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Estimated Completion Time</label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input type="text" placeholder="Estimated Completion Time" formControlName="estimation_completion_time">
+                            <small *ngIf="error &&  f['estimation_completion_time'].invalid" class="p-error">Estimated Completion Time is required.</small>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">OmDollar Rate <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input  onwheel="this.blur()"   (keydown)="onKeyDown($event)"   type="number" placeholder="OmDollar Rate (OmDollar/Hour)" formControlName="hourly_rate">
+                            <small *ngIf="error &&  f['hourly_rate'].invalid" class="p-error">OmDollar Rate is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">No. of volunteer needed <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input  onwheel="this.blur()"   (keydown)="onKeyDown($event)"   type="number" placeholder="No. of volunteer needed (No.)" formControlName="total_people">
+                            <small *ngIf="error &&  f['total_people'].invalid" class="p-error">No. of volunteer needed is required.</small>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Job Title <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Job Title'"  [settings]="roleSetting"
+                            [data]="allRole" (onSelect)="onRoleSelect($event)"
+                             formControlName="role_id">
+                        </ng-multiselect-dropdown>
+                        <small *ngIf="error &&  f['role_id'].invalid" class="p-error">Job Title is required.</small>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button class="card-btn btn" type="submit">
+                                <div  *ngIf="!isLoading">Create</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>    
+</form>

@@ -1,0 +1,60 @@
+<form [formGroup]="createProjectBidForm" (ngSubmit)="create()">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a routerLink="../" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a> Create Elect</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Enter Elect Details</h2>
+            </div>
+        </div>
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Project Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Project Name'"  [settings]="projectSetting"
+                                [data]="allProject" (onSelect)="onProjectSelect($event)" (onDeSelect)="onItemDeselect($event)"
+                                formControlName="project_id">
+                                <small *ngIf="error &&  f['project_id'].invalid" class="p-error">Project Name is required.</small>
+                            </ng-multiselect-dropdown>
+                            <small *ngIf="error &&  f['project_id'].invalid" class="p-error">Project Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Description <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Description"   formControlName="description" cols="100" ></textarea>
+                            <small *ngIf="error &&  f['description'].invalid" class="p-error">Description is required.</small>
+                        </div>
+                    </div>
+                  
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button type="submit" class="card-btn btn">
+                                <div  *ngIf="!isLoading">Create</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>
+    
+    
+</form>

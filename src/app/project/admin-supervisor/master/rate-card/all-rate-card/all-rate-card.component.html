@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2"><a routerLink="../../"><i class="fas fa-long-arrow-left"></i></a>Rate Card</h1>
+        </div>
+    </div>
+    <div class="row justify-content-end my-3">
+
+        <div class="col-9 col-md-5 col-lg-3 ">
+            <a routerLink="../create"><button class="card-btn btn">&#43; Create Project</button></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table " id="excel-table">
+              <thead >
+                  <tr >
+                    <th scope="col">Sl. No.</th>
+                    <th scope="col">Serial No.</th>
+                    <th scope="col">Work</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody  >
+                  <tr *ngFor='let item of this.allRateCard;  let i=index' >
+                   <td>{{i + 1 }}</td>
+                   <td>{{item.sl_no }}</td>
+                   <td>{{item.work }}</td>
+                   <td>{{item.rate }}</td>
+                   <td>
+                    <a routerLink="/customer/edit/{{item.id}}"><i class="fas fa-edit"></i></a> 
+                   </td>
+                   <td>
+                    <button style="border: none;background-color: inherit;" > <i class="fas fa-trash-alt" style="color: red;"></i></button> 
+                   </td>
+                  </tr>
+                 
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+              
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+        showFirstLastButtons
+        (page)="pageChanged($event)"
+        aria-label="Select page of periodic elements">
+  </mat-paginator>
+      </div>
+    </div>
+</div>

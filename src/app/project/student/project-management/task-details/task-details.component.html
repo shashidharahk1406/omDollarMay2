@@ -1,0 +1,194 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2"><a data-toggle="tooltip" data-placement="top" title="Back" routerLink="../../"><i class="fas fa-long-arrow-left"></i></a></h1>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="col-5 col-md-5">
+          <h1 >Project Name: {{project_name  | titlecase}}</h1>
+          <br>
+          <h1 >Project Total Estimated Hours: {{estimated_hours}}</h1>
+          <br>
+          <!-- <h1 class="text-danger">Remaining Estimated Task Hours:{{remainingEstimatedHours}} </h1> -->
+      </div>
+  </div>
+    <div class="row justify-content-between my-3">
+      <!-- <div class="col-5 col-md-5 col-lg-3">
+        <input type="text" placeholder="Search Task" [(ngModel)]="searchTask" >
+    </div> -->
+    <div class="col-7 col-md-7 col-lg-4">
+      <div class="input-group">
+        <input type="search"  class="form-control" placeholder="Search Task" [(ngModel)]="searchTask"  >
+        <span class="input-group-text"> 
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+      </div>
+  </div>
+    <div class="col-5 col-md-5 col-lg-3 ">
+      <a (click)="goToCreateTask()" *ngIf="!disableCreateTaskButton" ><button class="card-btn btn" >&#43; Create Task</button></a>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table " id="excel-table">
+              <thead >
+                  <tr >
+                    <!-- <th scope="col">Sl. No.</th> -->
+                    <th scope="col">Task <i  *ngIf="arrow" (click)="sort('asc','task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Created By <i  *ngIf="arrow" (click)="sort('asc','applied_by__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','applied_by__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <!-- <th scope="col">Description <i  *ngIf="arrow" (click)="sort('asc','description')" class="fa fa-sort-up"></i><i (click)="sort('desc','description')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th scope="col">Start Date <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">End Date <i  *ngIf="arrow" (click)="sort('asc','end_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','end_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <!-- <th scope="col">Details <i  *ngIf="arrow" (click)="sort('asc','reason')" class="fa fa-sort-up"></i><i (click)="sort('desc','reason')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                    <th scope="col">Create Timesheet</th>
+                    <th scope="col">Status <i  *ngIf="arrow" (click)="sort('asc','task_status')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_status')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Remarks</th>
+                    <th style="width: 100px;" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="allTask.length==0">
+                  <tr class="no-data">
+                    <td colspan="14">No data available in table</td>
+                </tr>
+                </tbody>
+                <tbody *ngIf="allTask.length!=0" >
+                  <tr *ngFor='let item of allTask |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index ' >
+                   <!-- <td>{{i + 1 }}</td> -->
+                   <td>{{item.task_name}}</td>
+                   <td>{{item.user__user_name}}</td>
+                   <!-- <td>{{item.description}}</td> -->
+                   <!-- <td>{{item.start_time |date: 'dd/MM/yyyy' }}</td>
+                   <td>{{item.end_time  |date: 'dd/MM/yyyy' }}</td> -->
+                   <!-- <td>{{item.reason}}</td> -->
+                   <td >
+                    <button *ngIf="item.task_status==='Submitted'||item.task_status==='Pending' || item.task_status==='Declined' || item.task_status==='Rewarded'" (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#createModal" style="border: none;background-color: inherit;" data-toggle="tooltip" data-placement="top" title="Create Timesheet"><i class="fas fa-add"></i></button> 
+                      <span *ngIf="item.task_status==='Accepted'">N.A</span>
+                   </td>
+                   <td *ngIf="item.task_status==='Accepted'"><p class="text-success">Accepted</p></td>
+                   <td *ngIf="item.task_status==='Rewarded'"><p class="text-success">Rewarded</p></td>
+                    <td *ngIf="item.task_status==='Declined'"><p class="text-danger">Declined</p></td>
+                    <td *ngIf="item.task_status==='Pending' || item.task_status==='Submitted'"><p class="text-warning">Pending</p></td>
+                    <td>{{item.comment}} <span *ngIf="item.comment == null">N.A</span></td>
+                   <td >
+                    <button *ngIf=" item.task_status==='Submitted' || item.task_status==='Pending' || item.task_status==='Declined'  || item.task_status==='Rewarded'" (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" style="border: none;background-color: inherit;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></button> 
+                    <!-- <span *ngIf=" || item.task_status==='Accepted' ">N.A</span> -->
+                   </td>
+                  
+                  </tr>
+                 
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+              
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+        showFirstLastButtons
+        (page)="pageChanged($event)"
+        aria-label="Select page of periodic elements">
+  </mat-paginator>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+       
+      </div>
+      <div class="modal-body">
+        Are you sure want to edit?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="editRoute()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+       
+      </div>
+      <div class="modal-body">
+        Are you sure want to update or create timesheet?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="createTimeSheetRoute()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete?
+      </div>
+      <div class="modal-footer">
+        <button #deleteClose type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="delete()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure want to edit?
+        </div>
+        <div class="modal-footer">
+          <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button  type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure want to delete?
+        </div>
+        <div class="modal-footer">
+          <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button  type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,208 @@
+<form [formGroup]="editProjectForm" (ngSubmit)="edit()">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a routerLink="../../" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a>Edit Project</h1>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Update Project Details</h2>
+            </div>
+        </div> -->
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Project Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Project Name" formControlName="project_name">
+                            <small *ngIf="error &&  f['project_name'].invalid" class="p-error">Project Name is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Description <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Description" cols="100" formControlName="description" ></textarea>
+                            <small *ngIf="error &&  f['description'].invalid" class="p-error">Description is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Skillset <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Skillset" cols="100"  formControlName="Skillset"></textarea>
+                            <small *ngIf="error &&  f['Skillset'].invalid" class="p-error">Skillset is required.</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Location <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3 ">
+                            <!-- <textarea maxlength="100" placeholder="Location" cols="100"  formControlName="country"></textarea>
+                            <small *ngIf="error &&  f['country'].invalid" class="p-error">Location is required.</small> -->
+                            <select appCountryFlags  formControlName="location"  style="height: 42px;border-radius: 8px;width: 100%;border: solid 0.5px #8080804a;background: #ffff;">
+                                <option *ngFor="let country of allCountries" [value]="country.name">{{country.name}}</option>
+                                <small *ngIf="error &&  f['location'].invalid" class="p-error">Location is required.</small>
+                                
+                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Outcome Required <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Outcome Required" cols="100"  formControlName="outcome_required"></textarea>
+                            <small *ngIf="error &&  f['outcome_required'].invalid" class="p-error">Outcome Required is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1" >
+                            <label for="">Terms & Conditions <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Terms & Conditions" cols="100"  formControlName="terms_and_conditions"></textarea>
+                            <small *ngIf="error &&  f['terms_and_conditions'].invalid" class="p-error">Terms & Conditions is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Estimated Hours <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input onwheel="this.blur()"   (keydown)="onKeyDown($event,'hours')"  type="number" placeholder="Estimated Hours (Hours)" formControlName="estimated_hours" >
+                            <small *ngIf="error &&  f['estimated_hours'].invalid" class="p-error">Estimated Hours is required.</small>
+                            <small  *ngIf="enableUser && currentEstimatedHours > editProjectForm.value.estimated_hours" class="p-error" >You can not reduce the number of Estimated Hours</small>
+                        </div>
+                        <!-- <p>ERROR</p> -->
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Estimated Value Rate</label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Estimated Value Rate'"  [settings]="valueRatingSetting"
+                            [data]="allRateCard" (onSelect)="onValueRatingSelect($event)"
+                             formControlName="estimated_rate_id">
+                        </ng-multiselect-dropdown>
+                            <small *ngIf="error &&  f['estimated_rate_id'].invalid" class="p-error">Estimated Value Rate is required.</small>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Estimated Completion Time</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input type="text" placeholder="Estimated Completion Time" formControlName="estimation_completion_time">
+                            <small *ngIf="error &&  f['estimation_completion_time'].invalid" class="p-error">Estimated Completion Time is required.</small>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">OmDollar Rate <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input onwheel="this.blur()"   (keydown)="onKeyDown($event,'rate')"  type="number" placeholder="OmDollar Rate (OmDollar/Hour)" formControlName="hourly_rate">
+                            <small *ngIf="error &&  f['hourly_rate'].invalid" class="p-error">OmDollar Rate is required.</small>
+                            <small  *ngIf="enableUser && currentEstimatedOmDollors > editProjectForm.value.hourly_rate" class="p-error">You can not reduce the OmDollar Rate After Bidding</small>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">No. of volunteer <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input onwheel="this.blur()"   (keydown)="onKeyDown($event,'volunteer')"  type="number" placeholder="No. of volunteer needed" formControlName="total_people">
+                            <small *ngIf="error &&  f['total_people'].invalid" class="p-error">No. of volunteer is required.</small>
+                            <small *ngIf="enableUser && currentEstimatedTotalPeople > editProjectForm.value.total_people" class="p-error">You can not reduce the number of volunteer After bidding </small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Supervisor <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Supervisor'"  [settings]="supervisorSetting"
+                            [data]="allSupervisor" (onSelect)="onSupervisorSelect($event)"
+                             formControlName="supervisor_id">
+                        </ng-multiselect-dropdown>
+                        <small *ngIf="error &&  f['supervisor_id'].invalid" class="p-error">Supervisor is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Status <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <ng-multiselect-dropdown class="select" [placeholder]="'Status'"  [settings]="statusSetting"
+                            [data]="allStatus" (onSelect)="onStatusSelect($event)"
+                             formControlName="project_status_id" >
+                        </ng-multiselect-dropdown>
+                        <small *ngIf="error &&  f['project_status_id'].invalid" class="p-error">Status is required.</small>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Recurring Project <span class="p-error">*</span></label>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <section class="example-section" formControlName="recurring_project" >
+                                <mat-checkbox class="example-margin" (change)="checkCheckBoxvalue($event)" formControlName="recurring_project"></mat-checkbox>
+                                <!-- <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox> -->
+                              </section>
+                          
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button class="card-btn btn" type="submit">
+                                <div  *ngIf="!isLoading">Update</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>    
+</form>

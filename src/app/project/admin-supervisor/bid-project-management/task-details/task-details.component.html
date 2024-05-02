@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="mat-elevation-z8">
+          <table class="table " id="excel-table">
+            <thead >
+                <tr >
+                  <!-- <th scope="col">Sl. No.</th> -->
+                  <th scope="col">Task  <i  *ngIf="arrow" (click)="sort('asc','task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <!-- <th scope="col">Done By  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <th scope="col">Volunteer <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <!-- <th scope="col">Start Time <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">End Time  <i  *ngIf="arrow" (click)="sort('asc','end_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','end_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <th scope="col">Reason </th>
+                  <th scope="col">View TimeSheet</th>
+                  <th scope="col" *ngIf="role=='Supervisor'">Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="allTasks.length==0">
+                <tr class="no-data">
+                  <td colspan="14">No data available in table</td>
+              </tr>
+              </tbody>
+              <tbody  *ngIf="allTasks.length!=0">
+                <tr *ngFor='let item of allTasks |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index' >
+                 <!-- <td>{{i + 1 }}</td> -->
+                 <td>{{item.task_name }}</td>
+                 <!-- <td>{{item.user__user_name }}</td> -->
+                 <td>{{item.user__user_name}}</td>
+                 <!-- <td>{{item.start_time |date: 'dd/MM/yyy' }}</td>
+                 <td>{{item.end_time |date: 'dd/MM/yyyy'}}</td> -->
+                 <td>{{item.comment}} </td>
+                 <td><i (click)="viewTimeSheet(item.id)" class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="View Timesheet"></i></td>
+                 <td *ngIf="role=='Supervisor' && item.task_status=='Submitted'"> <button (click)="userId(item.id,item.user_id)"  data-bs-toggle="modal" data-bs-target="#acceptModal"  class="action-btn">Accept</button>
+                  <button (click)="userId(item.id,item.user_id)"  data-bs-toggle="modal" data-bs-target="#rejectModal"  class="action-btn reject">Decline</button></td>
+                  <td *ngIf="role=='Supervisor' && item.task_status=='Pending'">N.A</td>
+                </tr>
+               
+              </tbody>
+          </table>
+
+          </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12">
+          
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+    showFirstLastButtons
+    (page)="pageChanged($event)"
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+  </div>
+</div>
+
+
+<div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+        </div>
+        <div class="modal-body">
+          Are you sure want to Accept?
+        </div>
+        <div class="modal-footer">
+          <button #accept type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button id="accept" (click)="approveRejectTask('accept')" type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b> Please fill the reason for declining!</b></h5>
+        </div>
+        <div class="modal-body">
+          <!-- <div class="row">
+            <div class="col-12">
+             
+            </div>
+          </div> -->
+          <form  [formGroup]="statusForm">
+            <div class="row">
+              <div class="col-12">
+                <label for="">Reason <span class="p-error">*</span></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12 col-md-12 col-lg-12 my-2">
+                      <input type="text" placeholder="Reason" formControlName="comment">
+                      <small *ngIf="error &&  f['comment'].invalid" class="p-error">Reason is required.</small>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button #reject type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button  id="reject" (click)="approveRejectTask('reject')" type="button" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>

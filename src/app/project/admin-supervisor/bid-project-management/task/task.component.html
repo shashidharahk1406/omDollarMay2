@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2" ><a  (click)="back()" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a> </h1>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-5 col-md-5">
+            <h1 class="my-2">Project Name: {{project_name  | titlecase}}</h1>
+        </div>
+        <div class="col-5 col-md-5 col-lg-3"  *ngIf="role=='Supervisor' && assigned_supervisor_id==user_id">
+            <button data-bs-toggle="modal" data-bs-target="#supervisorModal"  class="card-btn btn-color">Assign Supervisor</button>
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <mat-tab-group mat-align-tabs="start">
+                <mat-tab label="Task Details"><app-task-details></app-task-details></mat-tab>
+                <mat-tab label="Rewarded Tasks"><app-approved-task></app-approved-task></mat-tab>
+                <mat-tab label="Declined Tasks"><app-rejected-task></app-rejected-task></mat-tab>
+              </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="supervisorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Assign another Supervisor!</b></h5>
+         
+        </div>
+     <form [formGroup]="supervisorForm" >
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 my-2">
+                    <ng-multiselect-dropdown class="select" [placeholder]="'Supervisor'"  [settings]="supervisorSetting"
+                    [data]="allSupervisor" (onSelect)="onSupervisorSelect($event)"
+                     formControlName="supervisor_id">
+                </ng-multiselect-dropdown>
+                <small *ngIf="error &&  f['supervisor_id'].invalid" class="p-error">Supervisor is required.</small>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #close  class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+          <button type="button" (click)="assign()" class="btn btn-primary"> 
+            <div  *ngIf="!isLoading">Yes</div>
+            <div  *ngIf="isLoading" class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div></button>
+        </div>
+     </form>
+      </div>
+    </div>
+  </div>

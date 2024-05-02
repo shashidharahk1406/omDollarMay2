@@ -1,0 +1,109 @@
+<form [formGroup]='updateTimeSheetForm' (ngSubmit)="update('edit')">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a (click)="goBack()" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left"></i></a>Update TimeSheet</h1>
+            </div>
+        </div>
+        <div  class="row justify-content-between">
+            <div class="col-12 col-md-10">
+                <h2 >Task : {{details.task_name}} ({{start_date}} - {{end_date}})</h2>
+                <br>
+                <!-- <h2 class="text-danger">Remaining Estimated Task Hours : {{remainingEstimatedHours}} </h2> -->
+                <!-- <h2 >{{details.start_time}} - {{details.end_time}}</h2> -->
+            </div>
+            <!-- <div class="col-12 col-md-2 col-lg-2 my-2"></div> -->
+            <!-- <div class="col-12 col-md-2 col-lg-2 my-2">
+              <button data-toggle="tooltip" data-placement="top" title="Update the timesheet" class="card-btn btn" type="submit">
+                <div  *ngIf="!isLoading">Update</div>
+                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+            </button>
+            </div> -->
+            <div class="col-12 col-md-2 col-lg-2 my-2">
+              <button *ngIf="submitBtn" data-toggle="tooltip" data-placement="top" title="Sumbit timesheet to the supervisor" style="width: 97%;background-color: #298229;" class="card-btn btn" type="button" data-bs-toggle="modal" data-bs-target="#editModal">
+                Submit
+            </button>
+            </div>
+        </div>
+        <form [formGroup]='monthForm'>
+          <div class="row">
+            <div class="col-3 col-md-3">
+              <ng-multiselect-dropdown class="select" [placeholder]="'Select Month'"  [settings]="monthSetting"
+              [data]="allMonth" (onSelect)="onMonthSelect($event)"  formControlName="month"
+               >
+          </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-md-12 col-12 text-center">
+            <h1>{{filterDay}}</h1>
+          </div>
+        </div>
+       <div class="row">
+
+            <div class="col-12 col-md-12 col-lg-12 my-4 mb-4">
+                <div class="box">
+                  <div formArrayName="working_hour_list">
+                    <div class="row task">
+                      <div class="cardColumn" *ngFor="let item of array|monthSort:filterDay; let i = index" >
+                        <div [formGroupName]="item.index">
+                          <div class="card" [ngStyle]="{'background-color':read[item.index] === 'dummy' ? '#f2f2f2' : 'inherit' }"  >
+                            <div class="card-body text-center">
+                              <!-- <p> {{item.index}}</p> -->
+                              <p [ngStyle]="{'color':read[item.index] === 'dummy' ? 'grey' : 'black' }">{{ day[item.index] }}</p>
+                              <p [ngStyle]="{'color':read[item.index] === 'dummy' ? 'grey' : 'black' }">{{ date[item.index] }}</p>
+                              <div *ngIf="read[item.index] == true || read[item.index] == false" class="textOnInput">
+                                <label *ngIf="!read[item.index]" for="inputText">Enter hours <span class="p-error">*</span></label>
+                                <input [ngClass]="read[item.index]? 'input-invalid' :'input-valid'" [readonly]="read[item.index]" type="number" onwheel="this.blur()" (keyup)="onKeyDown($event)"  class="form-control p-3 sizeinput" formControlName="hour" placeholder="Hour" aria-describedby="emailHelp" autocomplete="off" [min]="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                              </div>
+
+                              <small *ngIf="contactOption.controls[item.index]?.get('hour')?.invalid" class="p-error">Enter hours between 0 and 24.</small>
+                            
+                              <!-- <div *ngIf="myForm.get('inputValue').hasError('pattern')">Invalid value.</div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                      
+                         <div class="row justify-content-end">
+                            <div class="col-12 col-md-5 col-lg-3 my-2">
+                               
+                            </div>
+                        </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>
+    
+    
+</form>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation!</b></h5>
+       
+      </div>
+      <div class="modal-body">
+        Have you completed the task and ready to submit it to the Supervisor? 
+        <br>
+        <!-- <small *ngIf="error" class="p-error"></small> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >No</button>
+        <button (click)="update('submit')" type="button" class="btn btn-primary"> <div  *ngIf="!isLoadingbtn">Yes</div>
+          <div  *ngIf="isLoadingbtn" class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div></button>
+      </div>
+    </div>
+  </div>
+</div>

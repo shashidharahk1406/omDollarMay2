@@ -1,0 +1,110 @@
+<form [formGroup]="createTaskForm" (ngSubmit)="create()">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 col-md-12">
+                <h1 class="my-2"><a data-toggle="tooltip" data-placement="top" title="Back" (click)="goBack()"><i class="fas fa-long-arrow-left"></i></a>Edit Task</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h2 >Enter Details</h2>
+            </div>
+        </div>
+       <div class="row">
+            <div class="col-12 col-md-11 col-lg-11 my-4 mb-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Task Name <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Task Name" formControlName="task_name">
+                            <small *ngIf="error &&  f['task_name'].invalid" class="p-error">Task Name is required.</small>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Description <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <textarea placeholder="Description" cols="100"  formControlName="description"></textarea>
+                            <small *ngIf="error &&  f['description'].invalid" class="p-error">Description is required.</small>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Start Date <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <div class="d-flex">
+                                <mat-datepicker disabled="true" #startDatePicker></mat-datepicker>
+                                <input class="input" readonly [max]="maxDate" matInput [matDatepicker]="startDatePicker" (dateChange)="addFromDate($event)"   formControlName="start_time" placeholder="dd/mm/yyyy">
+                                <mat-datepicker-toggle matSuffix ></mat-datepicker-toggle>
+                            </div> 
+                        <small *ngIf="error &&  f['start_time'].invalid" class="p-error">Start Date is required.</small>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">End Date <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <div class="d-flex">
+                                <mat-datepicker #endDatePicker></mat-datepicker>
+                                <input readonly [min]="minDate" matInput [matDatepicker]="endDatePicker" (dateChange)="addToDate($event)"   formControlName="end_time" placeholder="dd/mm/yyyy">
+                                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                            </div> 
+                            <small *ngIf="error &&  f['end_time'].invalid" class="p-error">End Date is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-1">
+                            <label for="">Details <span class="p-error">*</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <input type="text" placeholder="Details" formControlName="reason">
+                            <small *ngIf="error &&  f['reason'].invalid" class="p-error">Details are required.</small>
+
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <label for="">Comment</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 my-2">
+                            <input type="text" placeholder="Comment">
+                        </div>
+                    </div> -->
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-md-5 col-lg-3 my-2">
+                            <button class="card-btn btn" type="submit">
+                                <div  *ngIf="!isLoading">Update</div>
+                                <div  *ngIf="isLoading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
+    </div>
+    
+    
+</form>

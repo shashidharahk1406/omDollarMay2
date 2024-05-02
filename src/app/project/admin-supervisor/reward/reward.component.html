@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <h1 class="my-2">Reward</h1>
+        </div>
+    </div>
+    <!-- <div class="row justify-content-end my-3">
+        <div class="col-9 col-md-5 col-lg-3 ">
+            <a routerLink="../create"><button class="card-btn btn">&#43; Add Supervisors</button></a>
+        </div>
+    </div> -->
+    
+    <div class="row  my-3 justify-content-between">
+      <!-- <div class="col-5 col-md-5 col-lg-3">
+          <input type="text" placeholder="Search Reward Project" [(ngModel)]="searchRewardProject" >
+      </div> -->
+      <div class="col-7 col-md-7 col-lg-4">
+        <div class="input-group">
+          <input type="search"  class="form-control" placeholder="Search Reward Project" [(ngModel)]="searchRewardProject"  >
+          <span class="input-group-text"> 
+              <i class="fa fa-search" aria-hidden="true"></i>
+          </span>
+        </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-12 col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table " id="excel-table">
+              <thead >
+                  <tr >
+                    <th scope="col">Sl. No.</th>
+                    <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">No .of Tasks<i  *ngIf="arrow" (click)="sort('asc','count_task')" class="fa fa-sort-up"></i><i (click)="sort('desc','count_task')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Action</th>
+                    <!-- <th scope="col">Delete</th> -->
+                  </tr>
+                </thead>
+                <tbody *ngIf="allRewardProject.length==0">
+                  <tr class="no-data">
+                    <td colspan="14">No data available in table</td>
+                </tr>
+                </tbody>
+                <tbody  *ngIf="allRewardProject.length!=0">
+                  <tr *ngFor='let item of allRewardProject|CustomFilter:searchRewardProject |sort:directionValue:sortValue; let i=index' >
+                   <td>{{i + 1 }}</td>
+                   <td>{{item.project__project_name }}</td>
+                   <td>{{item.count_task }}</td>
+                   <td data-toggle="tooltip" data-placement="top" title="View" ><a (click)="viewTask(item.project_id)">View</a></td>
+                  
+                  </tr>
+                 
+                </tbody>
+            </table>
+
+            </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+            
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+      aria-label="Select page of periodic elements">
+</mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Create Reward</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-create-reward></app-create-reward>
+      </div>
+    </div>
+  </div>
+</div>

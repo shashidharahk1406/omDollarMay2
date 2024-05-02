@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="row">
+      <div class="col-12 col-md-12">
+          <h1 class="my-2">Project Opportunities: {{totalPageLength}}</h1>
+      </div>
+  </div>
+  <div class="row  my-3 justify-content-between">
+  
+        <!-- <input type="text" placeholder="Search Project" [(ngModel)]="searchProject" > -->
+        <div class="col-7 col-md-7 col-lg-4">
+          <div class="input-group">
+            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject"  >
+            <span class="input-group-text"> 
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+      </div>
+
+</div>
+<div class="row">
+  <div class="col-12 col-md-12">
+    <div class="mat-elevation-z8">
+      <table class="table " id="excel-table">
+        <thead >
+            <tr >
+              <!-- <th scope="col">Sl. No.</th> -->
+              <th scope="col">Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+              <th scope="col">Outcome Required </th>
+              <th scope="col">Estimated Task Hours (Hours)</th>
+              <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','project__Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+              <th scope="col">OmDollar Rate (OmDollar/hour)</th>
+              <th scope="col">Location</th>
+
+              <!-- <th scope="col">No. of People Required <i  *ngIf="arrow" (click)="sort('asc','project__total_people')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__total_people')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+              <th style="width: 50px;" scope="col">Status</th>
+             
+            </tr>
+          </thead>
+          <tbody *ngIf="allBidProject.length==0">
+            <tr class="no-data">
+              <td colspan="14">No data available in table</td>
+          </tr>
+          </tbody>
+          <tbody  *ngIf="allBidProject.length!=0">
+            <tr *ngFor='let item of allBidProject|CustomFilter:searchProject |sort:directionValue:sortValue ; let i=index' >
+             <!-- <td>{{i + 1 }}</td> -->
+             <td>{{item.project_id__project_name}}</td>
+             <td>{{item.project_id__outcome_required}}</td>
+             <td>{{item.project_id__estimated_hours}}</td>
+             <td>{{item.project_id__Skillset}}</td>
+             <td>{{item.project_id__hourly_rate}}</td>
+             <td>{{item.project_id__location}}</td>
+             <td *ngIf="item.status_in=='Bidding_Stage'">
+              <button data-toggle="tooltip" data-placement="top" title="Click to apply" class="text-white" (click)="apply(item.project_id_id)"  data-bs-toggle="modal" data-bs-target="#confirmationModal" style="border: none;background-color: green;" data-toggle="tooltip" data-placement="top" title="Apply"  >Apply</button>
+             </td>
+             <td *ngIf="item.status_in=='Applied' || item.status_in=='Approved'">
+              <p class="text-success">Applied</p>
+             </td>
+             <td *ngIf="item.status_in=='Rejected' ">
+              <p class="text-danger">Rejected</p>
+             </td>
+            </tr>
+           
+          </tbody>
+      </table>
+
+      </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-12">
+            
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+      aria-label="Select page of periodic elements">
+</mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Bid</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-create-bid></app-create-bid>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>Confirmation</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure want to apply?
+      </div>
+      <div class="modal-footer">
+        <button #close  type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button (click)="applyProject()" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

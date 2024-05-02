@@ -1,0 +1,35 @@
+h1,h2{
+    font-family: "monts";
+    margin: 0px;
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+  }
+  h2{
+    font-size: medium;
+    
+  }
+  .card{
+    background-color: inherit;
+    height: 125px;
+    border: 2px solid rgb(201, 197, 197);
+    margin-bottom: 5px;
+    border-radius: 15px;
+  }
+  .card-btn{
+    border: solid 0.5px gray;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: inherit;
+    font-family: "monts";
+    width: 100%;
+  }
+
+a{
+    text-decoration: none;
+}
+.rate_no{
+  
+  font-size:50px !important;
+    color: #005483 !important;
+}

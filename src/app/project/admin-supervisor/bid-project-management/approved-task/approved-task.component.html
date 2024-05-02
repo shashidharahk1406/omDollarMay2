@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="mat-elevation-z8">
+          <table class="table " id="excel-table">
+            <thead >
+                <tr >
+                  <!-- <th scope="col">Sl. No.</th> -->
+                  <th scope="col">Task  <i  *ngIf="arrow" (click)="sort('asc','task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <!-- <th scope="col">Done by  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <th scope="col">Volunteer <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <!-- <th scope="col">Start Time <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">End Time  <i  *ngIf="arrow" (click)="sort('asc','end_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','end_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
+                  <th scope="col">Reason </th>
+                  <th scope="col">View TimeSheet</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="allTasks.length==0">
+                <tr class="no-data">
+                  <td colspan="14">No data available in table</td>
+              </tr>
+              </tbody>
+              <tbody  *ngIf="allTasks.length!=0">
+                <tr *ngFor='let item of allTasks |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index' >
+                 <!-- <td>{{i + 1 }}</td> -->
+                 <td>{{item.task_name }}</td>
+                 <!-- <td>{{item.user__user_name }}</td> -->
+                 <td>{{item.user__user_name}}</td>
+                 <!-- <td>{{item.start_time |date: 'dd/MM/yyyy' }}</td>
+                 <td>{{item.end_time |date: 'dd/MM/yyyy'}}</td> -->
+                 <td>{{item.comment}}<span *ngIf="item.comment==null">N.A</span></td>
+                 <td><i (click)="viewTimeSheet(item.id)" class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="View Timesheet"></i></td>
+               
+               
+              </tbody>
+          </table>
+
+          </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12">
+          
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+    showFirstLastButtons
+    (page)="pageChanged($event)"
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+  </div>
+</div>
+
+

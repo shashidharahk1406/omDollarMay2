@@ -1,0 +1,77 @@
+
+<div class="row">
+    <div class="col-12 col-md-12">
+        <h1 class="my-2 mx-2"><a routerLink="/inner/super-admin/over-view" data-toggle="tooltip" data-placement="top" title="Back" ><i class="fas fa-long-arrow-left mx-1"></i>Project Name: {{projectName}}</a> </h1>
+    </div>
+    <div class="col-5 col-md-5">
+        <h1 class="my-2"></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="mat-elevation-z8">
+          <table class="table " id="excel-table">
+            <thead >
+                <tr >
+                  <!-- <th scope="col">Sl. No.</th> -->
+                  <th scope="col">Assigned Supervisor<i  *ngIf="arrow" (click)="sort('asc','access_received_supervisors_id__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                   <th scope="col">Estimated Hours <i  *ngIf="arrow" (click)="sort('asc','estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> 
+                   <th scope="col">Hourly Rate <i  *ngIf="arrow" (click)="sort('asc','hourly_rate')" class="fa fa-sort-up"></i><i (click)="sort('desc','hourly_rate')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> 
+                  <th scope="col">Project Start Date <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">Total People <i  *ngIf="arrow" (click)="sort('asc','total_people')" class="fa fa-sort-up"></i><i (click)="sort('desc','total_people')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> 
+                  <th scope="col">Project Status<i  *ngIf="arrow" (click)="sort('asc','total_people')" class="fa fa-sort-up"></i><i (click)="sort('desc','total_people')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> 
+                  <th scope="col">View Task Details<i  *ngIf="arrow" (click)="sort('asc','viewTask')" class="fa fa-sort-up"></i><i (click)="sort('desc','viewTask')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> 
+                  
+                  <!-- <th scope="col">Project Estimated Hours</th>
+                  <th scope="col">Project Hourly Rate </th> -->
+                  <!-- <th scope="col">Task Status </th> -->
+                  <!-- <th scope="col">Project Start Time</th> -->
+                  <!-- <th scope="col">End Time</th> -->
+                  <!-- <th scope="col">View TimeSheet</th> -->
+                 
+                  <!-- <th scope="col">Total People</th>
+                  <th scope="col">Project Status</th>
+                  <th scope="col">View Task Details</th> -->
+                  <!-- <th scope="col" *ngIf="role=='Supervisor'">Action</th> -->
+                </tr>
+              </thead>
+              <tbody *ngIf="projectDetails.length==0">
+                <tr class="no-data">
+                  <td colspan="14">No data available in table</td>
+              </tr>
+              </tbody>
+              
+              <tbody  *ngIf="projectDetails.length!==0">
+                <tr *ngFor='let item of projectDetails; let i=index' >
+                    <td>{{item.access_received_supervisors_id__user_name}}</td>
+                
+                 <td>{{item.estimated_hours}}</td>
+                
+                 
+                 <td>{{item.hourly_rate}}</td>
+                
+                 <td>{{item.updated_datetime | date:"dd/MM/yyyy"}}</td>
+               
+                 <td>{{item.total_people}}</td>
+                 <td>{{statusLabel(item.project_status_id)}}</td>
+               
+                 <td data-toggle="tooltip" data-placement="top" title="View"><a (click)="viewTask(item.project_id)">View</a></td>
+               
+                </tr>
+               
+              </tbody>
+          </table>
+
+          </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12">
+          
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
+    showFirstLastButtons
+    (page)="pageChanged($event)"
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+  </div>
+</div>
