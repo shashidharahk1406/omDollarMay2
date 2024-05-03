@@ -23,8 +23,11 @@
       <table class="table " id="excel-table">
         <thead >
             <tr >
-              <!-- <th scope="col">Sl. No.</th> -->
-              <th scope="col">Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+              <th scope="col">Sl No.</th>
+              <th scope="col">Project Id</th>
+              <th scope="col">Project Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+              <th scope="col">Project Owner</th>
+              <th scope="col">Project Supervisor</th>
               <th scope="col">Outcome Required </th>
               <th scope="col">Estimated Task Hours (Hours)</th>
               <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','project__Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
@@ -43,8 +46,11 @@
           </tbody>
           <tbody  *ngIf="allBidProject.length!=0">
             <tr *ngFor='let item of allBidProject|CustomFilter:searchProject |sort:directionValue:sortValue ; let i=index' >
-             <!-- <td>{{i + 1 }}</td> -->
+             <td>{{i + 1 }}</td>
+             <td>{{item.project_id__p_id}}</td>
              <td>{{item.project_id__project_name}}</td>
+             <td>{{item.project_id__user_ref__user_name}}</td>
+             <td>{{item.project_id__supervisor__user_name}}</td>
              <td>{{item.project_id__outcome_required}}</td>
              <td>{{item.project_id__estimated_hours}}</td>
              <td>{{item.project_id__Skillset}}</td>

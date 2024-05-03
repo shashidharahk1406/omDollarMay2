@@ -169,7 +169,10 @@ mat-icon {
   color: rgba(0,0,0,.54);
 } */
 
-
+.active-route{
+  background-color: #FFF;
+  color: #004B75;
+}
 
 
 

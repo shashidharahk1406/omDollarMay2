@@ -119,7 +119,7 @@ export class CreateProjectComponent implements OnInit {
       (error: any) => {}
     );
   }
-  countryName: any;
+  countryName: any='United States';
   onSupervisorSelect(event: any) {
     this.allSupervisor.forEach((element: any) => {
       if (element.id === event.id) {
@@ -199,8 +199,13 @@ export class CreateProjectComponent implements OnInit {
   getCountry(){
     this.api.getCountries().subscribe((res:any)=>{
       console.log(res,"countryyyyyyyyyyyyyyyyyyy")
-      this.allCountries=res.countries
-      ;
+      this.allCountries=res.countries;
+      res.countries.forEach((element:any) => {
+        if(element.country_code==='US'){
+          this.countryName=element.name;
+        }
+      });
+      
       console.log(this.allCountries,"countryyyyyyyyyyyyyyyyyyy")
     })
 }

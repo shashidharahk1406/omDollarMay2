@@ -29,7 +29,8 @@
             <table class="table " id="excel-table">
               <thead >
                   <tr >
-                    <th scope="col">Sl. No.</th>
+                    <th scope="col">SL No.</th>
+                    <th scope="col">Project Id</th>
                     <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">No .of Tasks<i  *ngIf="arrow" (click)="sort('asc','count_task')" class="fa fa-sort-up"></i><i (click)="sort('desc','count_task')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">Action</th>
@@ -44,6 +45,7 @@
                 <tbody  *ngIf="allRewardProject.length!=0">
                   <tr *ngFor='let item of allRewardProject|CustomFilter:searchRewardProject |sort:directionValue:sortValue; let i=index' >
                    <td>{{i + 1 }}</td>
+                   <td>{{item.project__p_id }}</td>
                    <td>{{item.project__project_name }}</td>
                    <td>{{item.count_task }}</td>
                    <td data-toggle="tooltip" data-placement="top" title="View" ><a (click)="viewTask(item.project_id)">View</a></td>

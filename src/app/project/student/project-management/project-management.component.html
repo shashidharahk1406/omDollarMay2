@@ -26,8 +26,9 @@
           <table class="table " id="excel-table">
             <thead >
                 <tr >
-                  <!-- <th scope="col">Sl. No.</th> -->
-                  <th scope="col">Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">Sl No.</th>
+                  <th scope="col">Project Id</th>
+                  <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                   <!-- <th scope="col">Outcome Required <i  *ngIf="arrow" (click)="sort('asc','project__outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                   <!-- <th scope="col">Estimated Hours <i  *ngIf="arrow" (click)="sort('asc','project__estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                   <!-- <th scope="col">Estimated Value Rate <i  *ngIf="arrow" (click)="sort('asc','estimated_rate_id')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_rate_id')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
@@ -46,7 +47,8 @@
               </tbody>
               <tbody  *ngIf="allApprovedProject.length!=0">
                 <tr *ngFor='let item of allApprovedProject|CustomFilter:searchBidManagement |sort:directionValue:sortValue; let i=index' >
-                 <!-- <td>{{i + 1 }}</td> -->
+                 <td>{{i + 1 }}</td>
+                 <td>{{item.project__p_id }}</td>
                  <td>{{item.project__project_name }}</td>
                  <!-- <td>{{item.project__outcome_required }}</td> -->
                  <!-- <td>{{item.project__estimated_hours }}</td> -->

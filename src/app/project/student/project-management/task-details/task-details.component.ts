@@ -43,14 +43,16 @@ export class TaskDetailsComponent implements OnInit {
     this.getAllTask()
     this.getAllProject()
   }
-  project_name:any
+  project_name:any;
+  p_id:any;
   estimated_hours:any
   projectCreationDate:any;
   getAllProject(){
     this.api.getProjectId(this.project_id).subscribe(
       (resp:any)=>{
         console.log(resp,"response")
-       this.project_name=resp.Message[0].project_name
+        this.p_id=resp.Message[0].p_id;
+       this.project_name=resp.Message[0].project_name;
        this.estimated_hours=resp.Message[0].estimated_hours;
         this.projectCreationDate=resp.Message[0].created_datetime;
         console.log(this.projectCreationDate,'pdddddddddddddddddddddddd')

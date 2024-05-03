@@ -23,8 +23,9 @@
               <table class="table " id="excel-table">
                 <thead >
                     <tr >
-                      <!-- <th scope="col">Sl. No.</th> -->
-                      <th scope="col">Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col">Sl No.</th>
+                      <th scope="col">Project Id</th>
+                      <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                       <th scope="col">Reward(OmDollar)</th>
                       <th scope="col">Action</th>
                       <!-- <th scope="col">Delete</th> -->
@@ -37,7 +38,8 @@
                   </tbody>
                   <tbody  *ngIf="allReward.length!=0">
                     <tr *ngFor='let item of allReward|CustomFilter:searchReward |sort:directionValue:sortValue; let i=index' >
-                     <!-- <td>{{i + 1 }}</td> -->
+                     <td>{{i + 1 }}</td>
+                     <td>{{item.project__p_id }}</td>
                      <td>{{item.project__project_name }}</td>
                      <td>{{item.sum_wallet_amount }}</td>
                      <td><a (click)="viewTask(item.project_id)">View</a></td>

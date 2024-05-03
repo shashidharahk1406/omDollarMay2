@@ -26,8 +26,9 @@
             <table class="table " id="excel-table">
               <thead >
                   <tr >
-                    <!-- <th scope="col" width="100">Sl. No.</th> -->
-                    <th scope="col">Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Sl No.</th>
+                    <th scope="col">Project Id</th>
+                    <th scope="col">Project Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">Task Hours (Hours)</th>
                     <th scope="col">OmDollar Rate (Omdollar/hour)</th>
                     <!-- <th scope="col">Status</th> -->
@@ -42,7 +43,8 @@
                 </tbody>
                 <tbody  *ngIf="allBidProject.length!=0">
                   <tr *ngFor='let item of allBidProject|CustomFilter:searchProject |sort:directionValue:sortValue ; let i=index' >
-                   <!-- <td>{{i + 1 }}</td> -->
+                    <td>{{i + 1 }}</td>
+                    <td>{{item.project_id__p_id}}</td>
                    <td>{{item.project_id__project_name}}</td>
                    <td>{{item.project_id__estimated_hours}}</td>
                    <td>{{item.project_id__hourly_rate}}</td>

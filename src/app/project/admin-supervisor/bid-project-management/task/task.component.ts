@@ -14,7 +14,8 @@ export class TaskComponent implements OnInit {
   id:any;
   role:any;
   user_id:any;
-  project_name:any
+  project_name:any;
+  project_id:any
   supervisorSetting = {};
   allSupervisor:any=[]
   supervisorId:any
@@ -47,6 +48,7 @@ export class TaskComponent implements OnInit {
   getAllProject(){
     this.api.getProjectId(this.id).subscribe(
       (resp:any)=>{
+        this.project_id=resp.Message[0].p_id;
        this.project_name=resp.Message[0].project_name
         this.assigned_supervisor_id = resp.Message[0].supervisor__id
       },
