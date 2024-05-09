@@ -7,13 +7,26 @@
   <div class="row  my-3 justify-content-between">
   
         <!-- <input type="text" placeholder="Search Project" [(ngModel)]="searchProject" > -->
-        <div class="col-7 col-md-7 col-lg-4">
+        <div class="col-12 col-md-4 col-lg-4">
           <div class="input-group">
-            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject"  >
+            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject">
             <span class="input-group-text"> 
                 <i class="fa fa-search" aria-hidden="true"></i>
             </span>
           </div>
+      </div>
+      <div class="col-md-2 col-lg-2"></div>
+      <div class="col-12 col-md-3 col-lg-3">
+        <ng-multiselect-dropdown class="select" [placeholder]="'Project Owner'"  [settings]="projectOwnerSetting"
+        [data]="allProjectQwner" (onSelect)="onProjectOwnerSelect($event)" (onDeSelect)="onProjectOwnerDeselect($event)"
+        >
+    </ng-multiselect-dropdown>
+      </div>
+      <div class="col-12 col-md-3 col-lg-3">
+        <ng-multiselect-dropdown class="select" [placeholder]="'Location'"  [settings]="locationSetting"
+        [data]="allCountries" (onSelect)="onLocationSelect($event)" (onDeSelect)="onLocationDeSelect($event)"
+        >
+    </ng-multiselect-dropdown>
       </div>
 
 </div>

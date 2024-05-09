@@ -228,6 +228,11 @@ export class ApiService {
       `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}`
     );
   }
+  getProjectBidsByUserId(pageNumber: any, data: any, id: any,owner_id:any,location:any) {
+    return this.http.get(
+      `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}`
+    );
+  }
   getRewardProject(user: any, pageNumber: any, data: any, id: any) {
     return this.http.get(
       `${this.baseurl}/main/approvedprojecttask/?page_number=${pageNumber}&data_per_page=${data}&task_status=Accepted&${user}=${id}`
@@ -311,5 +316,8 @@ export class ApiService {
 
   getProjectByIdSuperAdmin(id: any) {
     return this.http.get(`${this.baseurl}/main/getprojectdetails/?id=${id}`);
+  }
+  getProjectOwnerName(){
+    return this.http.get(`${this.baseurl}/main/projectownerlist/`);
   }
 }

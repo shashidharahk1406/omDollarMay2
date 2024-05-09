@@ -18,6 +18,7 @@ import{MatTabsModule}from"@angular/material/tabs";
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
     MatTabsModule,
     SharedModule,
     Ng2SearchPipeModule,
-    FormsModule,ReactiveFormsModule
+    FormsModule,ReactiveFormsModule,
+    NgMultiSelectDropDownModule,
   ]
 })
 export class ProjectModule { }

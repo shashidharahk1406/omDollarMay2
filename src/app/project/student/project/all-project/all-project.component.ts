@@ -15,13 +15,18 @@ export class AllProjectComponent implements OnInit {
   totalPageLength:any;
   data:any;
   allBidProject:any=[];
-  id:any
-  project_id:any
-
-  searchProject:any
-  arrow:boolean=false
-  directionValue:any='asc'
-  sortValue:any='project_id__project_name'
+  id:any;
+  project_id:any;
+  allCountries:any=[];
+  searchProject:any='';
+  arrow:boolean=false;
+  directionValue:any='asc';
+  sortValue:any='project_id__project_name';
+  projectOwnerSetting = {};
+  locationSetting = {};
+  allProjectQwner:any=[];
+  project_owner:any='';
+  location:any='';
   sort(direction:any,value:any){
     if(direction=='desc'){
       this.arrow=true
@@ -39,22 +44,42 @@ export class AllProjectComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getAllBid()
-    this.getProject()
-   
+    this.getProject();
+    this.getCountry();
+    this.getAllProjectOwnerList();
+    this.projectOwnerSetting = {
+      singleSelection: true,
+      id: 'user_name',
+      textField: 'user_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    this.locationSetting= {
+      singleSelection: true,
+      id: 'name',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex+1;
-    
-    this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id).subscribe((resp:any)=>{
-      this.allBidProject= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
-    },(error:any)=>{
-      console.log(error);
+    this.getProject();
+    // this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
+    //   this.allBidProject= resp.result.data;
+    //   this.totalPageLength=resp.result.pagination.len_of_data
+    // },(error:any)=>{
+    //   console.log(error);
       
-    })}
+    // });
+  }
   getProject(){
-    this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id).subscribe((resp:any)=>{
+    this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -106,5 +131,43 @@ export class AllProjectComponent implements OnInit {
 
   }
 
+  getCountry(){
+    this.api.getCountries().subscribe((res:any)=>{
+      this.allCountries=res.countries; 
+      console.log(this.allCountries,"countryyyyyyyyyyyyyyyyyyy")
+    })
+}
+searchPreojectByName_ID(event:any){
+  console.log(event.target.value);
+  this.searchProject=event.target.value;
+  this.getProject();
+}
+  onProjectOwnerSelect(event: any) {
+    console.log("event",event);
+    this.project_owner=event.id;
+    this.getProject();
+  }
+  onProjectOwnerDeselect(event:any){
+    console.log("event",event);
+    this.project_owner='';
+    this.getProject();
+  }
+  onLocationDeSelect(event:any){
+    console.log("event",event);
+    this.location='';
+    this.getProject();
+  }
+  onLocationSelect(event:any){
+    console.log("event",event);
+    this.location=event.name;
+    this.getProject();
+  }
+  getAllProjectOwnerList(){
+    this.api.getProjectOwnerName().subscribe((response:any)=>{
+this.allProjectQwner=response;
+    },(error:any)=>{
+      console.log(error);
+    })
+  }
 }
 
