@@ -18,13 +18,13 @@
       <div class="col-md-2 col-lg-2"></div>
       <div class="col-12 col-md-3 col-lg-3">
         <ng-multiselect-dropdown class="select" [placeholder]="'Project Owner'"  [settings]="projectOwnerSetting"
-        [data]="allProjectQwner" (onSelect)="onProjectOwnerSelect($event)" (onDeSelect)="onProjectOwnerDeselect($event)"
+        [data]="allProjectQwner" [(ngModel)]="projectOwer" (onSelect)="onProjectOwnerSelect($event)" (onDeSelect)="onProjectOwnerDeselect($event)"
         >
     </ng-multiselect-dropdown>
       </div>
       <div class="col-12 col-md-3 col-lg-3">
         <ng-multiselect-dropdown class="select" [placeholder]="'Location'"  [settings]="locationSetting"
-        [data]="allCountries" (onSelect)="onLocationSelect($event)" (onDeSelect)="onLocationDeSelect($event)"
+        [data]="allCountries" [(ngModel)]="locationMap" (onSelect)="onLocationSelect($event)" (onDeSelect)="onLocationDeSelect($event)"
         >
     </ng-multiselect-dropdown>
       </div>

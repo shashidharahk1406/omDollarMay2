@@ -26,7 +26,9 @@ export class AllProjectComponent implements OnInit {
   locationSetting = {};
   allProjectQwner:any=[];
   project_owner:any='';
+  projectOwer:any;
   location:any='';
+  locationMap:any;
   sort(direction:any,value:any){
     if(direction=='desc'){
       this.arrow=true
@@ -51,15 +53,6 @@ export class AllProjectComponent implements OnInit {
       singleSelection: true,
       id: 'user_name',
       textField: 'user_name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-    this.locationSetting= {
-      singleSelection: true,
-      id: 'name',
-      textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
@@ -132,16 +125,21 @@ export class AllProjectComponent implements OnInit {
   }
 
   getCountry(){
+    this.locationSetting= {
+      singleSelection: true,
+      id: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
     this.api.getCountries().subscribe((res:any)=>{
-      this.allCountries=res.countries; 
+      this.allCountries=res.countries;
       console.log(this.allCountries,"countryyyyyyyyyyyyyyyyyyy")
     })
 }
-searchPreojectByName_ID(event:any){
-  console.log(event.target.value);
-  this.searchProject=event.target.value;
-  this.getProject();
-}
+
   onProjectOwnerSelect(event: any) {
     console.log("event",event);
     this.project_owner=event.id;
@@ -158,7 +156,7 @@ searchPreojectByName_ID(event:any){
     this.getProject();
   }
   onLocationSelect(event:any){
-    console.log("event",event);
+    console.log("event",event.id);
     this.location=event.name;
     this.getProject();
   }
