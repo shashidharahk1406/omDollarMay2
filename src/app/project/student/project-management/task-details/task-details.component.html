@@ -75,8 +75,9 @@
                     <td *ngIf="item.task_status==='Pending' || item.task_status==='Submitted'"><p class="text-warning">Pending</p></td>
                     <td>{{item.comment}} <span *ngIf="item.comment == null">N.A</span></td>
                    <td >
-                    <button *ngIf=" item.task_status==='Submitted' || item.task_status==='Pending' || item.task_status==='Declined'  || item.task_status==='Rewarded'" (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" style="border: none;background-color: inherit;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></button> 
+                    <button *ngIf=" item.task_status==='Submitted' || item.task_status==='Pending' " (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" style="border: none;background-color: inherit;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></button> 
                     <!-- <span *ngIf=" || item.task_status==='Accepted' ">N.A</span> -->
+                    <span *ngIf="item.task_status==='Rewarded' || item.task_status==='Declined'">N.A</span>
                    </td>
                   
                   </tr>
