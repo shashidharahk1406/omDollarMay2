@@ -191,9 +191,9 @@ export class ApiService {
     );
   }
 
-  getApprovedProject(page: any, data: any, id: any, status: any) {
+  getApprovedProject(page: any, data: any, id: any, status: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/studentmanagement/?page_number=${page}&data_per_page=${data}&user_id=${id}&status_approval=${status}`
+      `${this.baseurl}/main/studentmanagement/?page_number=${page}&data_per_page=${data}&user_id=${id}&status_approval=${status}&search_key=${searchkey}`
     );
   }
 
@@ -228,9 +228,9 @@ export class ApiService {
       `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}`
     );
   }
-  getProjectBidsByUserId(pageNumber: any, data: any, id: any,owner_id:any,location:any) {
+  getProjectBidsByUserId(pageNumber: any, data: any, id: any,owner_id:any,location:any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}`
+      `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}&search_key=${searchkey}`
     );
   }
   getRewardProject(user: any, pageNumber: any, data: any, id: any) {
@@ -255,10 +255,11 @@ export class ApiService {
     projectId: any,
     id: any,
     page: any,
-    pageSize: any
+    pageSize: any,
+    searchkey:any
   ) {
     return this.http.get(
-      `${this.baseurl}/main/rewardbytask/?page_number=${page}&data_per_page=${pageSize}&project_id=${projectId}&rewarded_to_id=${id}`
+      `${this.baseurl}/main/rewardbytask/?page_number=${page}&data_per_page=${pageSize}&project_id=${projectId}&rewarded_to_id=${id}&search_key=${searchkey}`
     );
   }
   getWalletAmount(id: any) {
@@ -276,9 +277,9 @@ export class ApiService {
   }
 
   //  Super Admin
-  getUser(page: any, pageSize: any) {
+  getUser(page: any, pageSize: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/customuser/?page_number=${page}&data_per_page=${pageSize}`
+      `${this.baseurl}/main/customuser/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}`
     );
   }
   getRoleId() {
@@ -308,9 +309,9 @@ export class ApiService {
 
   //Project Overview -Super Admin
 
-  getAllProjectsSuperAdmin(page: any, pageSize: any) {
+  getAllProjectsSuperAdmin(page: any, pageSize: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/getprojectdetails/?page_number=${page}&data_per_page=${pageSize}`
+      `${this.baseurl}/main/getprojectdetails/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}`
     );
   }
 

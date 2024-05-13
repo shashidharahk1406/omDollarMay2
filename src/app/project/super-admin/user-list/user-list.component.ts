@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ViewChild } from '@angular/core';
 import { SortPipe } from 'src/app/pipe/sort/sort.pipe';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -15,19 +16,32 @@ export class UserListComponent implements OnInit {
   pageSize= 5;
   currentPage=1;
   totalPageLength:any;
-  searchProject:any
+  searchProject:any='';
   role:any
   user_id:any
   allUser:any=[]
   allRateCard:any=[]
   allStatus:any=[]
-
+  private searchTerms = new Subject<string>();
   constructor(private api:ApiService,private route:Router) { 
     this.user_id=localStorage.getItem('user_id')
     this.role=localStorage.getItem('role')
   }
   ngOnInit(): void {
-    this.getProject()
+    this.getProject();
+    this.searchTerms
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+      switchMap((query: string) =>this.api.getUser(this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+        this.allUser= resp.result.data;
+        this.totalPageLength=resp.result.pagination.len_of_data
+      },(error:any)=>{
+        console.log(error);
+        
+      }
+    
+      )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -47,23 +61,12 @@ export class UserListComponent implements OnInit {
   }
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    if(this.role =="Super Admin"){
-
-this.api.getUser(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-      this.allUser= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
-    },(error:any)=>{
-      console.log(error);
-      
-    }
-  
-    )
-    }
+    this.currentPage = event.pageIndex+1;
+    this.getProject();
     }
   getProject(){
     if(this.role =="Super Admin"){
-this.api.getUser(this.currentPage,this.pageSize).subscribe((resp:any)=>{
+this.api.getUser(this.currentPage,this.pageSize,this.searchProject).subscribe((resp:any)=>{
       this.allUser= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -93,5 +96,8 @@ this.api.getUser(this.currentPage,this.pageSize).subscribe((resp:any)=>{
 
     })
     
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchProject);
   }
 }

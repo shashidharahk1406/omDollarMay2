@@ -1,6 +1,7 @@
 import {Component,OnInit, ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
@@ -44,6 +45,7 @@ export class AllProjectComponent implements OnInit {
   constructor(private api:ApiService,private route:Router) { 
     this.id=localStorage.getItem('user_id')
   }
+  private searchTerms = new Subject<string>();
   ngOnInit(): void {
     // this.getAllBid()
     this.getProject();
@@ -58,6 +60,19 @@ export class AllProjectComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
+    this.searchTerms
+      .pipe(
+        debounceTime(300), // Wait for 300ms pause in events
+        distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+        switchMap((query: string) =>this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location,query))).subscribe((resp:any)=>{
+          this.allBidProject= resp.result.data;
+          this.totalPageLength=resp.result.pagination.len_of_data
+        },(error:any)=>{
+          console.log(error);
+          
+        }
+      
+        )
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
@@ -72,7 +87,7 @@ export class AllProjectComponent implements OnInit {
     // });
   }
   getProject(){
-    this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
+    this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location,this.searchProject).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -166,6 +181,9 @@ this.allProjectQwner=response;
     },(error:any)=>{
       console.log(error);
     })
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchProject);
   }
 }
 

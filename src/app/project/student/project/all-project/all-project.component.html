@@ -9,7 +9,7 @@
         <!-- <input type="text" placeholder="Search Project" [(ngModel)]="searchProject" > -->
         <div class="col-12 col-md-4 col-lg-4">
           <div class="input-group">
-            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject">
+            <input type="search"  class="form-control" placeholder="Search Project" [(ngModel)]="searchProject" (input)="onSearchInput()">
             <span class="input-group-text"> 
                 <i class="fa fa-search" aria-hidden="true"></i>
             </span>
@@ -58,7 +58,7 @@
           </tr>
           </tbody>
           <tbody  *ngIf="allBidProject.length!=0">
-            <tr *ngFor='let item of allBidProject|CustomFilter:searchProject |sort:directionValue:sortValue ; let i=index' >
+            <tr *ngFor='let item of allBidProject|sort:directionValue:sortValue ; let i=index' >
              <td>{{i + 1 }}</td>
              <td>{{item.project_id__p_id}}</td>
              <td>{{item.project_id__project_name}}</td>

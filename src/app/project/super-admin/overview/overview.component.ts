@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { ViewChild } from '@angular/core';
 import { SortPipe } from 'src/app/pipe/sort/sort.pipe';
 import { PageEvent } from '@angular/material/paginator';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 // import { error } from 'console';
 
 @Component({
@@ -17,7 +18,7 @@ export class OverviewComponent implements OnInit {
   pageSize= 5;
   currentPage=1;
   totalPageLength:any;
-  searchProject:any
+  searchProject:any='';
   role:any
   user_id:any
   allUser:any=[]
@@ -25,14 +26,27 @@ export class OverviewComponent implements OnInit {
   allStatus:any=[]
   allProjects: any=[];
   
-
+  private searchTerms = new Subject<string>();
   constructor(private api:ApiService,private route:Router) { 
     this.user_id=localStorage.getItem('user_id')
     this.role=localStorage.getItem('role')
     
   }
   ngOnInit(): void {
-    this.getProject()
+    this.getAllProjects();
+    this.searchTerms
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+      switchMap((query: string) =>this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+        this.allProjects= resp.result.data;
+            this.totalPageLength=resp.result.data.pagination.len_of_data
+          },(error:any)=>{
+            console.log(error);
+            
+          }
+        
+          )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -52,34 +66,23 @@ export class OverviewComponent implements OnInit {
   }
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    if(this.role =="Super Admin"){
-
-this.api.getAllProjectsSuperAdmin(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-  this.allProjects= resp.result.data;
-      this.totalPageLength=resp.result.data.pagination.len_of_data
-    },(error:any)=>{
-      console.log(error);
-      
+    this.currentPage = event.pageIndex+1;
+    this.getAllProjects();
     }
+//   getProject(){
+//     if(this.role =="Super Admin"){
+// this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,this.searchProject).subscribe((resp:any)=>{
+//   this.allProjects= resp.result.data;
+//       this.totalPageLength=resp.result.pagination.len_of_data
+      
+//     },(error:any)=>{
+//       console.log(error);
+      
+//     }
   
-    )
-    }
-    }
-  getProject(){
-    if(this.role =="Super Admin"){
-this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize).subscribe((resp:any)=>{
-  this.allProjects= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
-      
-    },(error:any)=>{
-      console.log(error);
-      
-    }
-  
-    )
-    }
-  }
+//     )
+//     }
+//   }
 
   selectedId:any
   id(id:any){
@@ -90,9 +93,9 @@ this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize).subscribe((res
   }
   delete(){
     this.api.deleteUser(this.selectedId).subscribe((data:any)=>{
-      this.getProject()
+      this.getAllProjects()
       this.api.showError('User Deleted Successfully')
-      this.getProject();
+      this.getAllProjects();
       this.deleteClose.nativeElement.click();
     },(error:any)=>{
       console.log(error);
@@ -108,7 +111,7 @@ this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize).subscribe((res
 
   getAllProjects(){
     if(this.role=="Super Admin")
-    this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize).subscribe((res:any)=>{
+    this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,this.searchProject).subscribe((res:any)=>{
     console.log(res,"ressssssssssssssss")
       this.allProjects=res.result.data;
       console.log( this.allProjects,"projects")
@@ -117,6 +120,8 @@ this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize).subscribe((res
       console.log(error)
     })
   }
-
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchProject);
+  }
 
 }

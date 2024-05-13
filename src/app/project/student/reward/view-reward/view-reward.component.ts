@@ -1,6 +1,7 @@
 import {Component,OnInit,ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
@@ -13,16 +14,31 @@ export class ViewRewardComponent implements OnInit {
   pageSize= 5;
   currentPage=1;
   totalPageLength:any;
-  searchReward:any
+  searchReward:any='';
   allReward:any=[]
   id:any
-  projectId:any
+  projectId:any;
+  private searchTerms = new Subject<string>();
   constructor(private api:ApiService,private route:Router,private router:ActivatedRoute) {
     this.id=localStorage.getItem('user_id')
     this.projectId=Number(this.router.snapshot.paramMap.get('id'))
    }
   ngOnInit(): void {
-    this.getReward()
+    this.getReward();
+    this.searchTerms
+      .pipe(
+        debounceTime(300), // Wait for 300ms pause in events
+        distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+        switchMap((query: string) =>this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+          this.allReward= resp.result.data[0];
+          console.log(this.allReward,"rrrrrrrrrrrrrrrrrrrrrrr")
+          this.totalPageLength=resp.result.pagination.len_of_data
+        },(error:any)=>{
+          console.log(error);
+          
+        }
+      
+        )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -43,15 +59,17 @@ export class ViewRewardComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
-    this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-      this.allReward= resp.result.data[0];
-      this.totalPageLength=resp.result.pagination.len_of_data
-    },(error:any)=>{
-      console.log(error);
+    // this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage+1,this.pageSize,).subscribe((resp:any)=>{
+    //   this.allReward= resp.result.data[0];
+    //   this.totalPageLength=resp.result.pagination.len_of_data
+    // },(error:any)=>{
+    //   console.log(error);
       
-    })}
+    // })
+    this.getReward();
+  }
     getReward(){
-    this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage,this.pageSize).subscribe((resp:any)=>{
+    this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data[0];
       console.log(this.allReward,"rrrrrrrrrrrrrrrrrrrrrrr")
       this.totalPageLength=resp.result.pagination.len_of_data
@@ -70,5 +88,7 @@ export class ViewRewardComponent implements OnInit {
   viewTimeSheet(task_id:any){
     this.route.navigate(['inner/officials/bid-project-management/viewTimesheet/'+ this.id + '/task/' + task_id])
   }
-
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchReward);
+  }
 }
