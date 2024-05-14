@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class RewardHistoryComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   totalPageLength:any;
   searchReward:any
   allReward:any=[]
@@ -51,7 +51,7 @@ export class RewardHistoryComponent implements OnInit {
       
     })}
     getReward(){
-    this.api.getRewardAdmin(this.id,this.currentPage,this.pageSize).subscribe((resp:any)=>{
+    this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{

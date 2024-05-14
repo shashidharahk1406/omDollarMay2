@@ -298,9 +298,9 @@ remainingEstimatedHours:any;
 estimatedTaskHour:any;
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     
-    this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id).subscribe((resp:any)=>{
+    this.api.getProjectByUserId(this.currentPage+1,this.pageSize,this.id).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       
       this.totalPageLength=resp.result.pagination.len_of_data
@@ -309,7 +309,7 @@ estimatedTaskHour:any;
       
     })}
   getProject(){
-    this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id).subscribe((resp:any)=>{
+    this.api.getProjectByUserId(this.currentPage+1,this.pageSize,this.id).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.estimatedTaskHour=resp.result.data[0].project_id__task_estimated_hours;
       console.log( this.estimatedTaskHour,"eeeeeestimatedddddddddd")

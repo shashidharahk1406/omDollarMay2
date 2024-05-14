@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class AllProjectComponent implements OnInit {
   @ViewChild('close') close:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
   data:any;
@@ -65,7 +65,7 @@ export class AllProjectComponent implements OnInit {
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
         distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-        switchMap((query: string) =>this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location,query))).subscribe((resp:any)=>{
+        switchMap((query: string) =>this.api.getProjectBidsByUserId(this.currentPage+1,this.pageSize,this.id,this.project_owner,this.location,query))).subscribe((resp:any)=>{
           this.allBidProject= resp.result.data;
           this.totalPageLength=resp.result.pagination.len_of_data
         },(error:any)=>{
@@ -76,10 +76,10 @@ export class AllProjectComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
     this.getProject();
-    // this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
+    // this.api.getProjectByUserId(this.currentPage+1,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
     //   this.allBidProject= resp.result.data;
     //   this.totalPageLength=resp.result.pagination.len_of_data
     // },(error:any)=>{
@@ -88,7 +88,7 @@ export class AllProjectComponent implements OnInit {
     // });
   }
   getProject(){
-    this.api.getProjectBidsByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location,this.searchProject).subscribe((resp:any)=>{
+    this.api.getProjectBidsByUserId(this.currentPage+1,this.pageSize,this.id,this.project_owner,this.location,this.searchProject).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{

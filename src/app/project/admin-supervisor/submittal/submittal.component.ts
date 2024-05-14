@@ -14,7 +14,7 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 export class SubmittalComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
   searchSubmittals:any='';
@@ -40,7 +40,7 @@ export class SubmittalComponent implements OnInit {
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
         distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-        switchMap((query: string) =>this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+        switchMap((query: string) =>this.api.getSubmittals(this.user,this.user_id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
           this.allSubmittals= resp.result.data;
           this.totalPageLength=resp.result.pagination.len_of_data;
         },(error:any)=>{
@@ -66,8 +66,8 @@ export class SubmittalComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
-    this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
+    this.currentPage = event.pageIndex;
+    this.api.getSubmittals(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
       this.allSubmittals= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data;
     },(error:any)=>{
@@ -78,7 +78,7 @@ export class SubmittalComponent implements OnInit {
     )
   }
     getSubmittals(){
-      this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
+      this.api.getSubmittals(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
         this.allSubmittals= resp.result.data;
         
         this.totalPageLength=resp.result.pagination.len_of_data

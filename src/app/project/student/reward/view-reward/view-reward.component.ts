@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class ViewRewardComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
   searchReward:any='';
@@ -30,7 +30,7 @@ export class ViewRewardComponent implements OnInit {
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
         distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-        switchMap((query: string) =>this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+        switchMap((query: string) =>this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
           this.allReward= resp.result.data[0];
           console.log(this.allReward,"rrrrrrrrrrrrrrrrrrrrrrr")
           this.totalPageLength=resp.result.pagination.len_of_data
@@ -71,7 +71,7 @@ export class ViewRewardComponent implements OnInit {
     this.getReward();
   }
     getReward(){
-    this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage,this.pageSize,this.searchReward).subscribe((resp:any)=>{
+    this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data[0];
       console.log(this.allReward,"rrrrrrrrrrrrrrrrrrrrrrr")
       this.totalPageLength=resp.result.pagination.len_of_data

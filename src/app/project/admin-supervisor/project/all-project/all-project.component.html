@@ -59,15 +59,18 @@
                    <td>{{statusLabel(item.project_status_id)}}</td>
                    <td *ngIf="role=='Project Owner'">{{item.supervisor_name}}</td>
                    <td *ngIf="role=='Project Owner'" >
-                    <div class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis-vertical"  ></i>
-               
-                      <ul class="dropdown-menu">
-                        <li (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" data-toggle="tooltip" data-placement="top" title="Edit">  <button  style="border: none;background-color: inherit;padding: 0px 15px;" ><i class="fas fa-edit"></i></button>Edit </li>
-                        <li *ngIf="!item.rewarded" (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#deleteModal" data-toggle="tooltip" data-placement="top" title="Delete" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  > <i class="fas fa-trash-alt" style="color: red;"></i></button>Delete </li>
-                        <li *ngIf="item.project_status_id!==3"  (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#projectClose"  data-toggle="tooltip" data-placement="top" title="Close" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  ><i class="fa-solid fa-xmark" style="color: black;"></i></button>Close</li>
-                      </ul>
-                      </div>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <ul style="padding-left: 0 !important;">
+    <li (click)="id(item.id)"  data-bs-toggle="modal" data-bs-target="#editModal" data-toggle="tooltip" data-placement="top" title="Edit">  <button  style="border: none;background-color: inherit;padding: 0px 15px;" ><i class="fas fa-edit"></i></button>Edit </li>
+    <li *ngIf="!item.rewarded" (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#deleteModal" data-toggle="tooltip" data-placement="top" title="Delete" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  > <i class="fas fa-trash-alt" style="color: red;"></i></button>Delete </li>
+    <li *ngIf="item.project_status_id!==3"  (click)="id(item.id)" data-bs-toggle="modal" data-bs-target="#projectClose"  data-toggle="tooltip" data-placement="top" title="Close" ><button   style="border: none;background-color: inherit;;padding: 0px 15px;"  ><i class="fa-solid fa-xmark" style="color: black;"></i></button>Close</li>
+  </ul>
+</mat-menu>
+
+                
                   </td>
                   </tr>
                  
@@ -84,6 +87,7 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalPageLength"
       showFirstLastButtons
       (page)="pageChanged($event)"
+      [pageIndex]="currentPage"
       aria-label="Select page of periodic elements">
 </mat-paginator>
 

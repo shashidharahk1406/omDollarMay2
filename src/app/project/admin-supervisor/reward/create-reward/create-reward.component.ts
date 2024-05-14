@@ -16,7 +16,7 @@ export class CreateRewardComponent implements OnInit {
   id:any
   user_id:any
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
   searchTask:any
@@ -69,7 +69,7 @@ export class CreateRewardComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
-    this.api.getTaskDetailsByProjectId(this.id,this.currentPage,this.pageSize,this.status).subscribe((resp:any)=>{
+    this.api.getTaskDetailsByProjectId(this.id,this.currentPage+1,this.pageSize,this.status).subscribe((resp:any)=>{
       this.allTasks= resp.result.data;
       this.totalPageLength=resp.result.pagination.number_of_pages*10
     },(error:any)=>{
@@ -77,7 +77,7 @@ export class CreateRewardComponent implements OnInit {
       
     })}
     getTask(){
-    this.api.getTaskDetailsByProjectId(this.id,this.currentPage,this.pageSize,this.status).subscribe((resp:any)=>{
+    this.api.getTaskDetailsByProjectId(this.id,this.currentPage+1,this.pageSize,this.status).subscribe((resp:any)=>{
       this.allTasks= resp.result.data;
       this.totalPageLength=resp.result.pagination.number_of_pages*10
     },(error:any)=>{

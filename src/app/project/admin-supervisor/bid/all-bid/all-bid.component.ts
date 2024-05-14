@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class AllBidComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
   searchProject:any='';
@@ -53,7 +53,7 @@ export class AllBidComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) =>this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,query))).subscribe((resp:any)=>{
+      switchMap((query: string) =>this.api.getBidProject(this.currentPage+1,this.pageSize,this.user_id,this.user,query))).subscribe((resp:any)=>{
         this.allBidProject= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data;
       },(error:any)=>{
@@ -63,9 +63,9 @@ export class AllBidComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
-    this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
+    this.api.getBidProject(this.currentPage+1,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data;
     },(error:any)=>{
@@ -78,7 +78,7 @@ export class AllBidComponent implements OnInit {
 
 }
   getProject(){
-    this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
+    this.api.getBidProject(this.currentPage+1,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{

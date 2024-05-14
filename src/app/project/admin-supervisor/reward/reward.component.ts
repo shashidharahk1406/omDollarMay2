@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class RewardComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   user_id:any;
   role:any;
@@ -37,7 +37,7 @@ export class RewardComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) => this.api.getRewardProject(this.user,this.currentPage,this.pageSize,this.user_id,query))).subscribe((resp:any)=>{
+      switchMap((query: string) => this.api.getRewardProject(this.user,this.currentPage+1,this.pageSize,this.user_id,query))).subscribe((resp:any)=>{
         this.allRewardProject= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{
@@ -63,8 +63,8 @@ export class RewardComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
-    this.api.getRewardProject(this.user,this.currentPage,this.pageSize,this.user_id,this.searchRewardProject).subscribe((resp:any)=>{
+    this.currentPage = event.pageIndex;
+    this.api.getRewardProject(this.user,this.currentPage+1,this.pageSize,this.user_id,this.searchRewardProject).subscribe((resp:any)=>{
       this.allRewardProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -75,7 +75,7 @@ export class RewardComponent implements OnInit {
     )
   }
     getRewardProject(){
-      this.api.getRewardProject(this.user,this.currentPage,this.pageSize,this.user_id,this.searchRewardProject).subscribe((resp:any)=>{
+      this.api.getRewardProject(this.user,this.currentPage+1,this.pageSize,this.user_id,this.searchRewardProject).subscribe((resp:any)=>{
         this.allRewardProject= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{

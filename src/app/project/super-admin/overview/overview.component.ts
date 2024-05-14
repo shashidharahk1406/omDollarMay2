@@ -16,7 +16,7 @@ export class OverviewComponent implements OnInit {
 
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
   searchProject:any='';
@@ -39,7 +39,7 @@ export class OverviewComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) =>this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+      switchMap((query: string) =>this.api.getAllProjectsSuperAdmin(this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allProjects= resp.result.data;
             this.totalPageLength=resp.result.data.pagination.len_of_data
           },(error:any)=>{
@@ -67,13 +67,13 @@ export class OverviewComponent implements OnInit {
   }
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
     this.getAllProjects();
     }
 //   getProject(){
 //     if(this.role =="Super Admin"){
-// this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,this.searchProject).subscribe((resp:any)=>{
+// this.api.getAllProjectsSuperAdmin(this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
 //   this.allProjects= resp.result.data;
 //       this.totalPageLength=resp.result.pagination.len_of_data
       
@@ -113,7 +113,7 @@ export class OverviewComponent implements OnInit {
 
   getAllProjects(){
     if(this.role=="Super Admin")
-    this.api.getAllProjectsSuperAdmin(this.currentPage,this.pageSize,this.searchProject).subscribe((res:any)=>{
+    this.api.getAllProjectsSuperAdmin(this.currentPage+1,this.pageSize,this.searchProject).subscribe((res:any)=>{
     console.log(res,"ressssssssssssssss")
       this.allProjects=res.result.data;
       console.log( this.allProjects,"projects")

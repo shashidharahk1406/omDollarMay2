@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class TaskDetailsComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
   project_id:any;
@@ -80,7 +80,7 @@ export class TaskDetailsComponent implements OnInit {
     remainingEstimatedHours:any;
     disableCreateTaskButton:boolean=false;
   getAllTask(){
-    this.api.getTaskbyProjectId(this.currentPage,this.pageSize,this.project_id,this.user_id).subscribe((resp:any)=>{
+    this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id).subscribe((resp:any)=>{
       this.allTask= resp.result.data;
       this.remainingEstimatedHours=resp.result.data[0].remaining_task_hours;
       if( this.remainingEstimatedHours===0){

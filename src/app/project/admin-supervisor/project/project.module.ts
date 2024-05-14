@@ -20,6 +20,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -46,8 +47,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     Ng2SearchPipeModule,
     SharedModule,
     MatDatepickerModule,
-    MatCheckboxModule
-
+    MatCheckboxModule,
+    MatMenuModule
   ]
 })
 export class ProjectModule { }

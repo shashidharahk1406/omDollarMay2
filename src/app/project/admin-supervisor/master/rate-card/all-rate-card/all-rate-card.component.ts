@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class AllRateCardComponent implements OnInit {
 
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
 
@@ -34,7 +34,7 @@ export class AllRateCardComponent implements OnInit {
       
     })}
   getRateCard(){
-    this.api.getRateCard(this.currentPage,this.pageSize).subscribe((resp:any)=>{
+    this.api.getRateCard(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
       this.allRateCard= resp.result.data;
       console.log(resp,"resssssssssssssssss") 
       this.totalPageLength=resp.result.pagination.number_of_pages*10
