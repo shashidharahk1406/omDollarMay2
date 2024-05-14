@@ -47,7 +47,7 @@
               </tbody>
               <tbody  *ngIf="allApprovedProject.length!=0">
                 <tr *ngFor='let item of allApprovedProject|sort:directionValue:sortValue; let i=index' >
-                 <td>{{i + 1 }}</td>
+                 <td>{{getContinuousIndex(i)}}</td>
                  <td>{{item.project__p_id }}</td>
                  <td>{{item.project__project_name }}</td>
                  <!-- <td>{{item.project__outcome_required }}</td> -->

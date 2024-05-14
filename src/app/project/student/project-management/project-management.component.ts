@@ -14,6 +14,7 @@ export class ProjectManagementComponent implements OnInit {
   status:any='Approved'
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
   searchBidManagement:any='';
   allApprovedProject:any=[]
@@ -57,6 +58,7 @@ export class ProjectManagementComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,this.searchBidManagement).subscribe((resp:any)=>{
       this.allApprovedProject= resp.result.data;      
       this.totalPageLength=resp.result.pagination.len_of_data
@@ -82,6 +84,9 @@ export class ProjectManagementComponent implements OnInit {
   }
   onSearchInput(): void {
     this.searchTerms.next(this.searchBidManagement);
+  }
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
   }
 }
 

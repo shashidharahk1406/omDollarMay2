@@ -17,6 +17,7 @@ export class CreateRewardComponent implements OnInit {
   user_id:any
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
   searchTask:any
   allTasks:any=[]
@@ -67,6 +68,7 @@ export class CreateRewardComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getTaskDetailsByProjectId(this.id,this.currentPage,this.pageSize,this.status).subscribe((resp:any)=>{
       this.allTasks= resp.result.data;
       this.totalPageLength=resp.result.pagination.number_of_pages*10
@@ -135,5 +137,7 @@ export class CreateRewardComponent implements OnInit {
       
     }    
     
-
+    getContinuousIndex(index: number):number {
+      return this.pageIndex * this.pageSize + index + 1;
+    }
 }

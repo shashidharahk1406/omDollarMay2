@@ -54,7 +54,7 @@
                 </tbody>
                 <tbody  *ngIf="allBidders.length!=0">
                   <tr *ngFor='let item of allBidders |CustomFilter:searchBidders |sort:directionValue:sortValue; let i=index' >
-                   <td>{{i + 1 }}</td>
+                   <td>{{getContinuousIndex(i)}}</td>
                    <td>{{item.user__user_name }} </td>
                    <!-- <td>{{item.Skillset}}</td>
                    <td>{{item.outcome_required }}</td>

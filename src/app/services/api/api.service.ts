@@ -51,9 +51,9 @@ export class ApiService {
   editProject(data: any) {
     return this.http.put(`${this.baseurl}/main/projects/`, data);
   }
-  getProject(point: any, user: any, id: any, pageNumber: any, data: any) {
+  getProject(point: any, user: any, id: any, pageNumber: any, data: any,searchKey:any) {
     return this.http.get(
-      `${this.baseurl}/main/${point}/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}`
+      `${this.baseurl}/main/${point}/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchKey}`
     );
   }
   getAllProject() {
@@ -75,9 +75,9 @@ export class ApiService {
   createProjectBid(data: any) {
     return this.http.post(`${this.baseurl}/main/projectbid/`, data);
   }
-  getBidProject(pageNumber: any, data: any, id: any, user: any) {
+  getBidProject(pageNumber: any, data: any, id: any, user: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/projectbid/?page_number=${pageNumber}&data_per_page=${data}&${user}=${id}`
+      `${this.baseurl}/main/projectbid/?page_number=${pageNumber}&data_per_page=${data}&${user}=${id}&search_key=${searchkey}`
     );
   }
   getAllBidProject() {
@@ -130,9 +130,9 @@ export class ApiService {
   }
   // Rate Card
   //Submittals
-  getSubmittals(user: any, id: any, pageNumber: any, data: any) {
+  getSubmittals(user: any, id: any, pageNumber: any, data: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/submittalsbyowner_and_volunteer/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}`
+      `${this.baseurl}/main/submittalsbyowner_and_volunteer/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}`
     );
   }
   getSubmittalsbyId(id: any) {
@@ -149,9 +149,9 @@ export class ApiService {
   }
   //Submittals
   //ProjectManagement
-  getBidManagement(user: any, id: any, pageNumber: any, data: any) {
+  getBidManagement(user: any, id: any, pageNumber: any, data: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/bidprojectManagement/${user}/${id}/?page_number=${pageNumber}&data_per_page=${data}`
+      `${this.baseurl}/main/bidprojectManagement/${user}/${id}/?page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}`
     );
   }
   getAllProjectManagement() {
@@ -233,9 +233,9 @@ export class ApiService {
       `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}&search_key=${searchkey}`
     );
   }
-  getRewardProject(user: any, pageNumber: any, data: any, id: any) {
+  getRewardProject(user: any, pageNumber: any, data: any, id: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/approvedprojecttask/?page_number=${pageNumber}&data_per_page=${data}&task_status=Accepted&${user}=${id}`
+      `${this.baseurl}/main/approvedprojecttask/?page_number=${pageNumber}&data_per_page=${data}&task_status=Accepted&${user}=${id}&search_key=${searchkey}`
     );
   }
   assignReward(data: any) {

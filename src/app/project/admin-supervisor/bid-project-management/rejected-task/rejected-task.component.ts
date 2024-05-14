@@ -15,6 +15,7 @@ export class RejectedTaskComponent implements OnInit {
   user_id:any
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
   searchTask:any
   allTasks:any=[]
@@ -47,6 +48,7 @@ export class RejectedTaskComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getTaskDetailsByProjectId(this.id,this.currentPage+1,this.pageSize,this.status).subscribe((resp:any)=>{
       this.allTasks= resp.result.data;;
       this.totalPageLength=resp.result.pagination.len_of_data
@@ -67,6 +69,9 @@ export class RejectedTaskComponent implements OnInit {
   }
   viewTimeSheet(task_id:any){
     this.router.navigate(['inner/officials/bid-project-management/viewTimesheet/'+ this.id + '/task/' + task_id])
+  }
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
   }
 }
 

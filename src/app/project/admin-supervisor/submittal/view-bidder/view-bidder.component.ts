@@ -18,6 +18,7 @@ export class ViewBidderComponent implements OnInit {
   user_id:any
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
   searchBidders:any
   allBidders:any=[]
@@ -53,6 +54,7 @@ export class ViewBidderComponent implements OnInit {
   // pageChanged(event: PageEvent) {
   //   this.pageSize = event.pageSize;
   //   this.currentPage = event.pageIndex;
+  // this.pageIndex=event.pageIndex;
   //   this.api.getSubmittalsbyId(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
   //     this.allBidders= resp.result.data;
   //     this.totalPageLength=resp.result.pagination.number_of_pages*10
@@ -113,7 +115,9 @@ export class ViewBidderComponent implements OnInit {
     
   }
   
-
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
 
 
 }

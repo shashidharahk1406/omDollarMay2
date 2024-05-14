@@ -16,6 +16,7 @@ export class RewardHistoryComponent implements OnInit {
   searchReward:any
   allReward:any=[]
   id:any
+  pageIndex:any=0;
   constructor(private api:ApiService,private route:Router,private router:ActivatedRoute) {
     this.id=localStorage.getItem('user_id')
    }
@@ -41,6 +42,7 @@ export class RewardHistoryComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
@@ -64,4 +66,7 @@ export class RewardHistoryComponent implements OnInit {
     this.route.navigate(['/inner/officials/reward/viewProjectReward/' + id])
   }
 
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
 }

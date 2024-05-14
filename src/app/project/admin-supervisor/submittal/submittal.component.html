@@ -10,7 +10,7 @@
     </div> -->
     <div class="col-7 col-md-7 col-lg-4">
       <div class="input-group">
-        <input type="search"  class="form-control" placeholder="Search Projects" [(ngModel)]="searchSubmittals"  >
+        <input type="search"  class="form-control" placeholder="Search Projects" [(ngModel)]="searchSubmittals"  (input)="onSearchInput()">
         <span class="input-group-text"> 
             <i class="fa fa-search" aria-hidden="true"></i>
         </span>
@@ -43,8 +43,8 @@
               </tr>
               </tbody>
               <tbody  *ngIf="allSubmittals.length!=0">
-                <tr *ngFor='let item of allSubmittals |CustomFilter:searchSubmittals |sort:directionValue:sortValue; let i=index' >
-                 <td>{{i + 1 }}</td>
+                <tr *ngFor='let item of allSubmittals|sort:directionValue:sortValue; let i=index' >
+                 <td>{{getContinuousIndex(i)}}</td>
                  <td>{{item.p_id }}</td>
                  <td>{{item.project_name }}</td>
                  <!-- <td>{{item.Skillset}}</td> -->

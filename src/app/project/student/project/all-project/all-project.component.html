@@ -59,7 +59,7 @@
           </tbody>
           <tbody  *ngIf="allBidProject.length!=0">
             <tr *ngFor='let item of allBidProject|sort:directionValue:sortValue ; let i=index' >
-             <td>{{i + 1 }}</td>
+             <td>{{getContinuousIndex(i)}}</td>
              <td>{{item.project_id__p_id}}</td>
              <td>{{item.project_id__project_name}}</td>
              <td>{{item.project_id__user_ref__user_name}}</td>

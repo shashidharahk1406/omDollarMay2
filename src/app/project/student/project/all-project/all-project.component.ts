@@ -13,6 +13,7 @@ export class AllProjectComponent implements OnInit {
   @ViewChild('close') close:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex:any=0;
   totalPageLength:any;
   data:any;
   allBidProject:any=[];
@@ -68,8 +69,7 @@ export class AllProjectComponent implements OnInit {
           this.allBidProject= resp.result.data;
           this.totalPageLength=resp.result.pagination.len_of_data
         },(error:any)=>{
-          console.log(error);
-          
+          console.log(error); 
         }
       
         )
@@ -77,6 +77,7 @@ export class AllProjectComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex+1;
+    this.pageIndex=event.pageIndex;
     this.getProject();
     // this.api.getProjectByUserId(this.currentPage,this.pageSize,this.id,this.project_owner,this.location).subscribe((resp:any)=>{
     //   this.allBidProject= resp.result.data;
@@ -184,6 +185,10 @@ this.allProjectQwner=response;
   }
   onSearchInput(): void {
     this.searchTerms.next(this.searchProject);
+  }
+
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
   }
 }
 

@@ -11,6 +11,7 @@ export class AllRateCardComponent implements OnInit {
 
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
 
   allRateCard:any=[]
@@ -23,6 +24,7 @@ export class AllRateCardComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getRateCard(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{   
       console.log(resp,"resssssssssssssssss")   
       this.allRateCard= resp.result.data;
@@ -42,6 +44,9 @@ export class AllRateCardComponent implements OnInit {
     }
   
     )
+  }
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
   }
 
 }

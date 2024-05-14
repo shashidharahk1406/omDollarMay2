@@ -17,6 +17,7 @@ export class OverviewComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex:any=0;
   totalPageLength:any;
   searchProject:any='';
   role:any
@@ -67,6 +68,7 @@ export class OverviewComponent implements OnInit {
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex+1;
+    this.pageIndex=event.pageIndex;
     this.getAllProjects();
     }
 //   getProject(){
@@ -124,4 +126,7 @@ export class OverviewComponent implements OnInit {
     this.searchTerms.next(this.searchProject);
   }
 
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
 }

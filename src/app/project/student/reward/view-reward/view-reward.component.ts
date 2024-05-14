@@ -13,6 +13,7 @@ export class ViewRewardComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex:any=0;
   totalPageLength:any;
   searchReward:any='';
   allReward:any=[]
@@ -59,6 +60,7 @@ export class ViewRewardComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     // this.api.getRewardByProjectIdStudent(this.projectId,this.id,this.currentPage+1,this.pageSize,).subscribe((resp:any)=>{
     //   this.allReward= resp.result.data[0];
     //   this.totalPageLength=resp.result.pagination.len_of_data
@@ -90,5 +92,9 @@ export class ViewRewardComponent implements OnInit {
   }
   onSearchInput(): void {
     this.searchTerms.next(this.searchReward);
+  }
+
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
   }
 }

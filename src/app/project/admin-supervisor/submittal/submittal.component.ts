@@ -3,6 +3,7 @@ import {PageEvent} from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { SortPipe } from 'src/app/pipe/sort/sort.pipe';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-submittal',
@@ -14,18 +15,38 @@ export class SubmittalComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex:any=0;
   totalPageLength:any;
-  searchSubmittals:any
+  searchSubmittals:any='';
   user_id:any
-  role:any
-  allSubmittals:any=[]
+  role:any;
+  allSubmittals:any=[];
+  user:any;
+  private searchTerms = new Subject<string>();
   constructor(private api:ApiService,private route:Router) {
     this.user_id= localStorage.getItem('user_id')
     this.role=localStorage.getItem('role')
-
+    if(this.role =="Supervisor"){
+      this.user = "user_id"
+      
+    }
+    else if(this.role =="Project Owner"){
+      this.user = "owner_id"
+    }
    }
   ngOnInit(): void {
-    this.getSubmittals()
+    this.getSubmittals();
+    this.searchTerms
+      .pipe(
+        debounceTime(300), // Wait for 300ms pause in events
+        distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+        switchMap((query: string) =>this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+          this.allSubmittals= resp.result.data;
+          this.totalPageLength=resp.result.pagination.len_of_data;
+        },(error:any)=>{
+          console.log(error); 
+        }
+        )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -45,59 +66,28 @@ export class SubmittalComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    if(this.role =="Supervisor"){
-      let user = "user_id"
-      this.api.getSubmittals(user,this.user_id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-        this.allSubmittals= resp.result.data;
-        
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      }
-    
-      )
+    this.currentPage = event.pageIndex+1;
+    this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
+      this.allSubmittals= resp.result.data;
+      this.totalPageLength=resp.result.pagination.len_of_data;
+    },(error:any)=>{
+      console.log(error);
+      
     }
-    else if(this.role =="Project Owner"){
-      let user = "owner_id"
-      this.api.getSubmittals(user,this.user_id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-        this.allSubmittals= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      }
-    
-      )
-    }
+  
+    )
   }
     getSubmittals(){
-      if(this.role =="Supervisor"){
-        let user = "user_id"
-        this.api.getSubmittals(user,this.user_id,this.currentPage,this.pageSize).subscribe((resp:any)=>{
-          this.allSubmittals= resp.result.data;
-          
-          this.totalPageLength=resp.result.pagination.len_of_data
-        },(error:any)=>{
-          console.log(error);
-          
-        }
-      
-        )
+      this.api.getSubmittals(this.user,this.user_id,this.currentPage,this.pageSize,this.searchSubmittals).subscribe((resp:any)=>{
+        this.allSubmittals= resp.result.data;
+        
+        this.totalPageLength=resp.result.pagination.len_of_data
+      },(error:any)=>{
+        console.log(error);
+        
       }
-      else if(this.role =="Project Owner"){
-        let user = "owner_id"
-        this.api.getSubmittals(user,this.user_id,this.currentPage,this.pageSize).subscribe((resp:any)=>{
-          this.allSubmittals= resp.result.data;
-          this.totalPageLength=resp.result.pagination.len_of_data
-        },(error:any)=>{
-          console.log(error);
-          
-        }
-      
-        )
-      }
+    
+      )
 
   }
 
@@ -122,4 +112,10 @@ export class SubmittalComponent implements OnInit {
     this.route.navigate(['inner/officials/submittal/view-bidders/' + id])
   }
  
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchSubmittals);
+  }
 }

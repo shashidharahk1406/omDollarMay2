@@ -1,6 +1,7 @@
 import {Component,OnInit, ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 @Component({
   selector: 'app-all-bid',
@@ -11,14 +12,16 @@ export class AllBidComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex=0;
   totalPageLength:any;
-  searchProject:any
+  searchProject:any='';
   role:any
-  user_id:any
+  user_id:any;
+  user:any;
   allBidProject:any=[]
   arrow:boolean=false
   directionValue:any='asc'
-
+  private searchTerms = new Subject<string>();
   sortValue:any='project_id__project_name'
   sort(direction:any,value:any){
     if(direction=='desc'){
@@ -35,65 +38,53 @@ export class AllBidComponent implements OnInit {
 
   constructor(private api:ApiService,private route:Router) {
     this.role=localStorage.getItem('role')
-    this.user_id=localStorage.getItem('user_id')
+    this.user_id=localStorage.getItem('user_id');
+    if(this.role =="Supervisor"){
+      this.user = "supervisor_id";
+    }
+    else if(this.role =="Project Owner"){
+      this.user = "owner_id"
+    }
    }
   ngOnInit(): void {
     // this.getAllBid()
-    this.getProject()
-   
+    this.getProject();
+    this.searchTerms
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+      switchMap((query: string) =>this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,query))).subscribe((resp:any)=>{
+        this.allBidProject= resp.result.data;
+        this.totalPageLength=resp.result.pagination.len_of_data;
+      },(error:any)=>{
+        console.log(error); 
+      }
+      )
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    if(this.role =="Supervisor"){
-      let user = "supervisor_id"
-
-
-      this.api.getBidProject(this.currentPage+1,this.pageSize,this.user_id,user).subscribe((resp:any)=>{
-        this.allBidProject= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      })
-    }
-    else if(this.role =="Project Owner"){
-      let user = "owner_id"
-      this.api.getBidProject(this.currentPage+1,this.pageSize,this.user_id,user).subscribe((resp:any)=>{
-        this.allBidProject= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      })
-    }
+    this.currentPage = event.pageIndex+1;
+    this.pageIndex=event.pageIndex;
+    this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
+      this.allBidProject= resp.result.data;
+      this.totalPageLength=resp.result.pagination.len_of_data;
+    },(error:any)=>{
+      console.log(error);
+      
+    })
+    
 
 
 
 }
   getProject(){
-    if(this.role =="Supervisor"){
-      let user = "supervisor_id"
-
-
-      this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,user).subscribe((resp:any)=>{
-        this.allBidProject= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      })
-    }
-    else if(this.role =="Project Owner"){
-      let user = "owner_id"
-      this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,user).subscribe((resp:any)=>{
-        this.allBidProject= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
-      },(error:any)=>{
-        console.log(error);
-        
-      })
-    }
+    this.api.getBidProject(this.currentPage,this.pageSize,this.user_id,this.user,this.searchProject).subscribe((resp:any)=>{
+      this.allBidProject= resp.result.data;
+      this.totalPageLength=resp.result.pagination.len_of_data
+    },(error:any)=>{
+      console.log(error);
+      
+    })
   }
   allBid:any=[]
   getAllBid(){
@@ -128,6 +119,12 @@ export class AllBidComponent implements OnInit {
     const projectBidLabel= this.allBidProject.find((x:any)=> x.project_id_id== id)
 
     return projectBidLabel?.project_id_id
+  }
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchProject);
   }
 }
 

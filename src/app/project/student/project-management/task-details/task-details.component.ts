@@ -12,6 +12,7 @@ export class TaskDetailsComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
   currentPage=1;
+  pageIndex:any=0;
   totalPageLength:any;
   project_id:any;
   user_id:any;
@@ -66,6 +67,7 @@ export class TaskDetailsComponent implements OnInit {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.pageIndex=event.pageIndex;
     this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id).subscribe((resp:any)=>{
       this.allTask= resp.result.data;
       
@@ -122,6 +124,8 @@ export class TaskDetailsComponent implements OnInit {
   goToCreateTask(){
     this.route.navigate(['/inner/student/project-management/create/' + this.project_id])
   }
-
+  getContinuousIndex(index: number):number {
+    return this.pageIndex * this.pageSize + index + 1;
+  }
 }
 
