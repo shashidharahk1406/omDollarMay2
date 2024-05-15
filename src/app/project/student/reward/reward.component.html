@@ -37,7 +37,7 @@
                   </tr>
                   </tbody>
                   <tbody  *ngIf="allReward.length!=0">
-                    <tr *ngFor='let item of allReward|CustomFilter:searchReward |sort:directionValue:sortValue; let i=index' >
+                    <tr *ngFor='let item of allReward|sort:directionValue:sortValue; let i=index' >
                      <td>{{getContinuousIndex(i)}}</td>
                      <td>{{item.project__p_id }}</td>
                      <td>{{item.project__project_name }}</td>
