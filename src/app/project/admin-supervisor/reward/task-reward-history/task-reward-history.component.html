@@ -42,7 +42,7 @@
                   </tr>
                   </tbody>
                   <tbody  *ngIf="allReward.length!=0">
-                    <tr *ngFor='let item of allReward|CustomFilter:searchReward |sort:directionValue:sortValue; let i=index' >
+                    <tr *ngFor='let item of allReward|sort:directionValue:sortValue; let i=index' >
                      <td>{{getContinuousIndex(i)}}</td>
                      <td>{{item.task__task_name }}</td>
                      <td>{{item.rewarded_to__user_name }}</td>

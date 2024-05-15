@@ -161,7 +161,6 @@ export class AllProjectComponent implements OnInit {
     this.api.closeProject(data).subscribe((data:any)=>{
       this.isLoading=true;
       console.log(data,"ddddddddddddddddddddddddd");
-      
       this.api.showWarning('Project Closed Successfully')
       this.ngOnInit();
       this.projectClose.nativeElement.click();

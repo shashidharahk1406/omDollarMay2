@@ -171,14 +171,14 @@ export class ApiService {
       data
     );
   }
-  getRewardAdmin(id: any, page: any, pageSize: any) {
+  getRewardAdmin(id: any, page: any, pageSize: any,searchKey:any) {
     return this.http.get(
-      `${this.baseurl}/main/getdetailrewards/?user_id=${id}&page_number=${page}&data_per_page=${pageSize}`
+      `${this.baseurl}/main/getdetailrewards/?user_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}`
     );
   }
-  getRewardAdminbyTask(id: any, page: any, pageSize: any) {
+  getRewardAdminbyTask(id: any, page: any, pageSize: any,searchKey:any) {
     return this.http.get(
-      `${this.baseurl}/main/getdetailrewards/?project_id=${id}&page_number=${page}&data_per_page=${pageSize}`
+      `${this.baseurl}/main/getdetailrewards/?project_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}`
     );
   }
   //ProjectManagement
