@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class EditProjectComponent implements OnInit {
   biddedProject = false;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   totalPageLength:any;
   role:any
   id: any;

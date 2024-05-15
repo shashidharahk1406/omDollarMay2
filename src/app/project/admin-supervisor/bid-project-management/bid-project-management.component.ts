@@ -13,7 +13,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class BidProjectManagementComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
   searchBidManagement:any='';
@@ -39,7 +39,7 @@ export class BidProjectManagementComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) =>this.api.getBidManagement(this.user,this.user_id,this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+      switchMap((query: string) =>this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allBidManagement= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{
@@ -65,9 +65,9 @@ export class BidProjectManagementComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
-    this.api.getBidManagement(this.user,this.user_id,this.currentPage,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
+    this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
       this.allBidManagement= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -78,7 +78,7 @@ export class BidProjectManagementComponent implements OnInit {
     )
   }
     getBidManagement(){
-      this.api.getBidManagement(this.user,this.user_id,this.currentPage,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
+      this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
         this.allBidManagement= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{

@@ -14,7 +14,7 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 export class UserListComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   totalPageLength:any;
   searchProject:any='';
   role:any
@@ -33,7 +33,7 @@ export class UserListComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) =>this.api.getUser(this.currentPage,this.pageSize,query))).subscribe((resp:any)=>{
+      switchMap((query: string) =>this.api.getUser(this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allUser= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{
@@ -61,12 +61,12 @@ export class UserListComponent implements OnInit {
   }
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.getProject();
     }
   getProject(){
     if(this.role =="Super Admin"){
-this.api.getUser(this.currentPage,this.pageSize,this.searchProject).subscribe((resp:any)=>{
+this.api.getUser(this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
       this.allUser= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{

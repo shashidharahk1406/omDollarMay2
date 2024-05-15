@@ -17,7 +17,7 @@ export class ViewBidderComponent implements OnInit {
   role:any
   user_id:any
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
   searchBidders:any

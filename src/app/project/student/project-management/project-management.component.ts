@@ -13,7 +13,7 @@ export class ProjectManagementComponent implements OnInit {
   id:any;
   status:any='Approved'
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   pageIndex=0;
   totalPageLength:any;
   searchBidManagement:any='';
@@ -30,7 +30,7 @@ export class ProjectManagementComponent implements OnInit {
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
         distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-        switchMap((query: string) =>this.api.getApprovedProject(this.currentPage,this.pageSize,this.id,this.status,query))).subscribe((resp:any)=>{
+        switchMap((query: string) =>this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,query))).subscribe((resp:any)=>{
           this.allApprovedProject= resp.result.data;
           console.log( this.allApprovedProject,"aaaaaaaaaaaaaaaaaaaaaaaaaaa")
           this.totalPageLength=resp.result.pagination.len_of_data
@@ -67,7 +67,7 @@ export class ProjectManagementComponent implements OnInit {
       
     })}
     getproject(){
-    this.api.getApprovedProject(this.currentPage,this.pageSize,this.id,this.status,this.searchBidManagement).subscribe((resp:any)=>{
+    this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,this.searchBidManagement).subscribe((resp:any)=>{
       this.allApprovedProject= resp.result.data;
       console.log( this.allApprovedProject,"aaaaaaaaaaaaaaaaaaaaaaaaaaa")
       this.totalPageLength=resp.result.pagination.len_of_data

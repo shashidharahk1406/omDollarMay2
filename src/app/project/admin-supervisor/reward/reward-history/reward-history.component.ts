@@ -1,6 +1,7 @@
 import {Component,OnInit,ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
@@ -11,17 +12,29 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class RewardHistoryComponent implements OnInit {
   @ViewChild('deleteClose') deleteClose:any;
   pageSize= 5;
-  currentPage=1;
+  currentPage=0;
   totalPageLength:any;
-  searchReward:any
+  searchReward:any=''
   allReward:any=[]
   id:any
   pageIndex:any=0;
+  private searchTerms = new Subject<string>();
   constructor(private api:ApiService,private route:Router,private router:ActivatedRoute) {
     this.id=localStorage.getItem('user_id')
    }
   ngOnInit(): void {
-    this.getReward()
+    this.getReward();
+    this.searchTerms
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+      switchMap((query: string) => this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
+        this.allReward= resp.result.data;
+      this.totalPageLength=resp.result.pagination.len_of_data
+      },(error:any)=>{
+        console.log(error); 
+      }
+      )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -43,7 +56,7 @@ export class RewardHistoryComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
-    this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
+    this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -51,7 +64,7 @@ export class RewardHistoryComponent implements OnInit {
       
     })}
     getReward(){
-    this.api.getRewardAdmin(this.id,this.currentPage,this.pageSize).subscribe((resp:any)=>{
+    this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
     },(error:any)=>{
@@ -68,5 +81,8 @@ export class RewardHistoryComponent implements OnInit {
 
   getContinuousIndex(index: number):number {
     return this.pageIndex * this.pageSize + index + 1;
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchReward);
   }
 }

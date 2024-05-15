@@ -75,7 +75,7 @@ export class AllProjectComponent implements OnInit {
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
     this.api.getProject(this.point,this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
       this.allProject= resp.result.data;
@@ -161,7 +161,6 @@ export class AllProjectComponent implements OnInit {
     this.api.closeProject(data).subscribe((data:any)=>{
       this.isLoading=true;
       console.log(data,"ddddddddddddddddddddddddd");
-      
       this.api.showWarning('Project Closed Successfully')
       this.ngOnInit();
       this.projectClose.nativeElement.click();
