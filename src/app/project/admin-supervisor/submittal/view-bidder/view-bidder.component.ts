@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { SortPipe } from 'src/app/pipe/sort/sort.pipe';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-view-bidder',
@@ -26,6 +27,7 @@ export class ViewBidderComponent implements OnInit {
   projectInfo:any
   total_no_of_volunteer:any
   no_of_accepted_volunteer:any
+  private searchTerms = new Subject<string>();
   constructor(private route:ActivatedRoute,private api:ApiService,private router:Router) {
     this.id=Number(this.route.snapshot.paramMap.get('id'))
     this.user_id=localStorage.getItem('user_id')
@@ -33,7 +35,21 @@ export class ViewBidderComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getBidders()
+    this.getBidders();
+    this.searchTerms
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+      switchMap((query: string) =>this.api.getSubmittalsbyIdandPagination(this.id,query))).subscribe((resp:any)=>{
+        this.projectInfo=resp.project_details;
+      this.total_no_of_volunteer=resp.project_details.total_people;
+      this.no_of_accepted_volunteer=resp.project_details.total_people_approved;
+      this.allBidders= resp.Message;
+      // this.totalPageLength=resp.result.pagination.number_of_pages*10
+      },(error:any)=>{
+        console.log(error); 
+      }
+      )
   }
   arrow:boolean=false
   directionValue:any='asc'
@@ -51,22 +67,25 @@ export class ViewBidderComponent implements OnInit {
       this.sortValue= value
     }
   }
-  // pageChanged(event: PageEvent) {
-  //   this.pageSize = event.pageSize;
-  //   this.currentPage = event.pageIndex;
-  // this.pageIndex=event.pageIndex;
-  //   this.api.getSubmittalsbyId(this.currentPage+1,this.pageSize).subscribe((resp:any)=>{
-  //     this.allBidders= resp.result.data;
-  //     this.totalPageLength=resp.result.pagination.number_of_pages*10
-  //   },(error:any)=>{
-  //     console.log(error);
+  pageChanged(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+  this.pageIndex=event.pageIndex;
+    this.api.getSubmittalsbyIdandPagination(this.id,this.searchBidders).subscribe((resp:any)=>{
+      this.projectInfo=resp.project_details;
+      this.total_no_of_volunteer=resp.project_details.total_people;
+      this.no_of_accepted_volunteer=resp.project_details.total_people_approved;
+      this.allBidders= resp.Message;
+      // this.totalPageLength=resp.result.pagination.number_of_pages*10
+    },(error:any)=>{
+      console.log(error);
       
-  //   })}
+    })}
     getBidders(){
-    this.api.getSubmittalsbyId(this.id).subscribe((resp:any)=>{
-      this.projectInfo=resp.project_details
-      this.total_no_of_volunteer=resp.project_details.total_people
-      this.no_of_accepted_volunteer=resp.project_details.total_people_approved
+    this.api.getSubmittalsbyIdandPagination(this.id,this.searchBidders).subscribe((resp:any)=>{
+      this.projectInfo=resp.project_details;
+      this.total_no_of_volunteer=resp.project_details.total_people;
+      this.no_of_accepted_volunteer=resp.project_details.total_people_approved;
       this.allBidders= resp.Message;
       // this.totalPageLength=resp.result.pagination.number_of_pages*10
     },(error:any)=>{
@@ -119,5 +138,7 @@ export class ViewBidderComponent implements OnInit {
     return this.pageIndex * this.pageSize + index + 1;
   }
 
-
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchBidders);
+  }
 }

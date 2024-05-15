@@ -138,6 +138,9 @@ export class ApiService {
   getSubmittalsbyId(id: any) {
     return this.http.get(`${this.baseurl}/main/submittals/?project_id=${id}`);
   }
+  getSubmittalsbyIdandPagination(id: any,searchkey:any) {
+    return this.http.get(`${this.baseurl}/main/submittals/?project_id=${id}&search_key=${searchkey}`);
+  }
   getAllSubmittals() {
     return this.http.get(`${this.baseurl}/main/submittals/`);
   }

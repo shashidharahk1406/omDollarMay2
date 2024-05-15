@@ -23,7 +23,7 @@
       </div> -->
       <div class="col-7 col-md-7 col-lg-4">
         <div class="input-group">
-          <input type="search"  class="form-control" placeholder="Search Bidders" [(ngModel)]="searchBidders"  >
+          <input type="search"  class="form-control" placeholder="Search Elector" [(ngModel)]="searchBidders" (input)="onSearchInput()"  >
           <span class="input-group-text"> 
               <i class="fa fa-search" aria-hidden="true"></i>
           </span>
@@ -38,7 +38,7 @@
             <table class="table " id="excel-table">
               <thead >
                   <tr >
-                    <th scope="col">Sl. No.</th>
+                    <!-- <th scope="col">Sl. No.</th> -->
                     <th scope="col">Elector Name  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <!-- <th scope="col">Address <i  *ngIf="arrow" (click)="sort('asc','Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">History of Working <i  *ngIf="arrow" (click)="sort('asc','outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
@@ -53,8 +53,8 @@
                 </tr>
                 </tbody>
                 <tbody  *ngIf="allBidders.length!=0">
-                  <tr *ngFor='let item of allBidders |CustomFilter:searchBidders |sort:directionValue:sortValue; let i=index' >
-                   <td>{{getContinuousIndex(i)}}</td>
+                  <tr *ngFor='let item of allBidders|sort:directionValue:sortValue; let i=index' >
+                   <!-- <td>{{getContinuousIndex(i)}}</td> -->
                    <td>{{item.user__user_name }} </td>
                    <!-- <td>{{item.Skillset}}</td>
                    <td>{{item.outcome_required }}</td>
