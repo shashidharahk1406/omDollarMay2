@@ -249,9 +249,9 @@ export class ApiService {
       `${this.baseurl}/main/budgetamountallocation/?project_id=${id}`
     );
   }
-  getReward(id: any, page: any, pageSize: any) {
+  getReward(id: any, page: any, pageSize: any,searchKey:any) {
     return this.http.get(
-      `${this.baseurl}/main/rewardbystudent/?page_number=${page}&data_per_page=${pageSize}&user_id=${id}`
+      `${this.baseurl}/main/rewardbystudent/?page_number=${page}&data_per_page=${pageSize}&user_id=${id}&search_key=${searchKey}`
     );
   }
   getRewardByProjectIdStudent(

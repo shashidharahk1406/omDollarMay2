@@ -21,7 +21,7 @@ export class ViewBidderComponent implements OnInit {
   currentPage=0;
   pageIndex=0;
   totalPageLength:any;
-  searchBidders:any
+  searchBidders:any=''
   allBidders:any=[]
   data:any
   projectInfo:any
