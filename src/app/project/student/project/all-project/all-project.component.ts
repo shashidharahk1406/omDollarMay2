@@ -15,6 +15,7 @@ export class AllProjectComponent implements OnInit {
   currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   data:any;
   allBidProject:any=[];
   id:any;
@@ -67,7 +68,8 @@ export class AllProjectComponent implements OnInit {
         distinctUntilChanged(), // Ignore if next search term is the same as the previous one
         switchMap((query: string) =>this.api.getProjectBidsByUserId(this.currentPage+1,this.pageSize,this.id,this.project_owner,this.location,query))).subscribe((resp:any)=>{
           this.allBidProject= resp.result.data;
-          this.totalPageLength=resp.result.pagination.len_of_data
+          this.totalPageLength=resp.result.pagination.len_of_data;
+          this.totalDataCount=resp.result.pagination.total_len_of_data;
         },(error:any)=>{
           console.log(error); 
         }
@@ -90,7 +92,8 @@ export class AllProjectComponent implements OnInit {
   getProject(){
     this.api.getProjectBidsByUserId(this.currentPage+1,this.pageSize,this.id,this.project_owner,this.location,this.searchProject).subscribe((resp:any)=>{
       this.allBidProject= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       

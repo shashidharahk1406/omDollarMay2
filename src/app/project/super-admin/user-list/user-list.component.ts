@@ -16,6 +16,7 @@ export class UserListComponent implements OnInit {
   pageSize= 5;
   currentPage=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchProject:any='';
   role:any
   user_id:any
@@ -35,7 +36,8 @@ export class UserListComponent implements OnInit {
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
       switchMap((query: string) =>this.api.getUser(this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allUser= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
+        this.totalPageLength=resp.result.pagination.len_of_data;
+        this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error);
         
@@ -68,7 +70,8 @@ export class UserListComponent implements OnInit {
     if(this.role =="Super Admin"){
 this.api.getUser(this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
       this.allUser= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       

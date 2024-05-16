@@ -14,6 +14,7 @@ export class RewardComponent implements OnInit {
   currentPage=0;
   pageIndex:any=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchReward:any='';
   allReward:any=[]
   id:any;
@@ -28,9 +29,10 @@ export class RewardComponent implements OnInit {
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
       switchMap((query: string) =>this.api.getReward(this.id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
-        this.allReward= resp.result.data[0];
+        this.allReward= resp.result.data;
         console.log(this.allReward,"rrrrrrrrrrrrrrrrrrrrrrr")
-        this.totalPageLength=resp.result.pagination.len_of_data
+        this.totalPageLength=resp.result.pagination.len_of_data;
+        this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error);
         
@@ -60,7 +62,8 @@ export class RewardComponent implements OnInit {
     this.pageIndex=event.pageIndex;
     this.api.getReward(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
@@ -68,7 +71,8 @@ export class RewardComponent implements OnInit {
     getReward(){
     this.api.getReward(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       

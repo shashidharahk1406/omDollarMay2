@@ -16,6 +16,7 @@ export class ProjectManagementComponent implements OnInit {
   currentPage=0;
   pageIndex=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchBidManagement:any='';
   allApprovedProject:any=[]
   role:any;
@@ -33,7 +34,8 @@ export class ProjectManagementComponent implements OnInit {
         switchMap((query: string) =>this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,query))).subscribe((resp:any)=>{
           this.allApprovedProject= resp.result.data;
           console.log( this.allApprovedProject,"aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-          this.totalPageLength=resp.result.pagination.len_of_data
+          this.totalPageLength=resp.result.pagination.len_of_data;
+          this.totalDataCount=resp.result.pagination.total_len_of_data;
         },(error:any)=>{
           console.log(error);    
         }
@@ -61,7 +63,8 @@ export class ProjectManagementComponent implements OnInit {
     this.pageIndex=event.pageIndex;
     this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,this.searchBidManagement).subscribe((resp:any)=>{
       this.allApprovedProject= resp.result.data;      
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
@@ -70,7 +73,8 @@ export class ProjectManagementComponent implements OnInit {
     this.api.getApprovedProject(this.currentPage+1,this.pageSize,this.id,this.status,this.searchBidManagement).subscribe((resp:any)=>{
       this.allApprovedProject= resp.result.data;
       console.log( this.allApprovedProject,"aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
