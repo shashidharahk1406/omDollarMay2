@@ -1,7 +1,7 @@
 import {Component,OnInit, ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
@@ -43,7 +43,18 @@ export class TaskDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     this.getAllTask()
-    this.getAllProject()
+    this.getAllProject();
+    this.searchTerms
+      .pipe(
+        debounceTime(300), // Wait for 300ms pause in events
+        distinctUntilChanged(), // Ignore if next search term is the same as the previous one
+        switchMap((query: string) => this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id,query))).subscribe((resp:any)=>{
+          this.allTask= resp.result.data;
+          this.totalPageLength=resp.result.pagination.len_of_data
+        },(error:any)=>{
+          console.log(error);    
+        }
+        )
   }
   project_name:any;
   p_id:any;
