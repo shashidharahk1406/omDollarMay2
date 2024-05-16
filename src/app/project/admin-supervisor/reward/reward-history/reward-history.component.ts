@@ -14,6 +14,7 @@ export class RewardHistoryComponent implements OnInit {
   pageSize= 5;
   currentPage=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchReward:any=''
   allReward:any=[]
   id:any
@@ -30,7 +31,8 @@ export class RewardHistoryComponent implements OnInit {
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
       switchMap((query: string) => this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allReward= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error); 
       }
@@ -58,7 +60,8 @@ export class RewardHistoryComponent implements OnInit {
     this.pageIndex=event.pageIndex;
     this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
@@ -66,7 +69,8 @@ export class RewardHistoryComponent implements OnInit {
     getReward(){
     this.api.getRewardAdmin(this.id,this.currentPage+1,this.pageSize,this.searchReward).subscribe((resp:any)=>{
       this.allReward= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       

@@ -19,6 +19,7 @@ export class AllProjectComponent implements OnInit {
   currentPage=0;
   pageIndex=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchProject:any='';
   role:any
   user_id:any
@@ -51,7 +52,8 @@ export class AllProjectComponent implements OnInit {
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
       switchMap((query: string) =>this.api.getProject(this.point,this.user,this.user_id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allProject= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
+        this.totalPageLength=resp.result.pagination.len_of_data;
+        this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error); 
       }
@@ -79,7 +81,8 @@ export class AllProjectComponent implements OnInit {
     this.pageIndex=event.pageIndex;
     this.api.getProject(this.point,this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
       this.allProject= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
@@ -93,7 +96,7 @@ export class AllProjectComponent implements OnInit {
     this.api.getProject(this.point,this.user,this.user_id,this.currentPage+1,this.pageSize,searchProject).subscribe((resp:any)=>{
       this.allProject= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data;
-      
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
       
     },(error:any)=>{
       console.log(error);

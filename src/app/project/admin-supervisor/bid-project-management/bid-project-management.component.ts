@@ -16,6 +16,7 @@ export class BidProjectManagementComponent implements OnInit {
   currentPage=0;
   pageIndex=0;
   totalPageLength:any;
+  totalDataCount:any=0;
   searchBidManagement:any='';
   allBidManagement:any=[];
   user_id:any;
@@ -41,7 +42,8 @@ export class BidProjectManagementComponent implements OnInit {
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
       switchMap((query: string) =>this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
         this.allBidManagement= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
+        this.totalPageLength=resp.result.pagination.len_of_data;
+        this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error); 
       }
@@ -69,7 +71,8 @@ export class BidProjectManagementComponent implements OnInit {
     this.pageIndex=event.pageIndex;
     this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
       this.allBidManagement= resp.result.data;
-      this.totalPageLength=resp.result.pagination.len_of_data
+      this.totalPageLength=resp.result.pagination.len_of_data;
+      this.totalDataCount=resp.result.pagination.total_len_of_data;
     },(error:any)=>{
       console.log(error);
       
@@ -80,7 +83,8 @@ export class BidProjectManagementComponent implements OnInit {
     getBidManagement(){
       this.api.getBidManagement(this.user,this.user_id,this.currentPage+1,this.pageSize,this.searchBidManagement).subscribe((resp:any)=>{
         this.allBidManagement= resp.result.data;
-        this.totalPageLength=resp.result.pagination.len_of_data
+        this.totalPageLength=resp.result.pagination.len_of_data;
+        this.totalDataCount=resp.result.pagination.total_len_of_data;
       },(error:any)=>{
         console.log(error);
         
