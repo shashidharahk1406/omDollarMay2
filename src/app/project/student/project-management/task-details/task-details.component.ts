@@ -1,6 +1,7 @@
 import {Component,OnInit, ViewChild} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
@@ -16,9 +17,9 @@ export class TaskDetailsComponent implements OnInit {
   totalPageLength:any;
   project_id:any;
   user_id:any;
-  searchTask:any
+  searchTask:any='';
   allTask:any=[]
-
+  private searchTerms = new Subject<string>();
   arrow:boolean=false
   directionValue:any='asc'
   sortValue:any='task_name'
@@ -68,7 +69,7 @@ export class TaskDetailsComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.pageIndex=event.pageIndex;
-    this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id).subscribe((resp:any)=>{
+    this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id,this.searchTask).subscribe((resp:any)=>{
       this.allTask= resp.result.data;
       
       
@@ -80,7 +81,7 @@ export class TaskDetailsComponent implements OnInit {
     remainingEstimatedHours:any;
     disableCreateTaskButton:boolean=false;
   getAllTask(){
-    this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id).subscribe((resp:any)=>{
+    this.api.getTaskbyProjectId(this.currentPage+1,this.pageSize,this.project_id,this.user_id,this.searchTask).subscribe((resp:any)=>{
       this.allTask= resp.result.data;
       this.remainingEstimatedHours=resp.result.data[0].remaining_task_hours;
       if( this.remainingEstimatedHours===0){
@@ -126,6 +127,9 @@ export class TaskDetailsComponent implements OnInit {
   }
   getContinuousIndex(index: number):number {
     return this.pageIndex * this.pageSize + index + 1;
+  }
+  onSearchInput(): void {
+    this.searchTerms.next(this.searchTask);
   }
 }
 

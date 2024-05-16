@@ -221,9 +221,9 @@ export class ApiService {
   updateTaskByProjectId(data: any) {
     return this.http.put(`${this.baseurl}/main/taskdetail/`, data);
   }
-  getTaskbyProjectId(pageNumber: any, data: any, id: any, user_id: any) {
+  getTaskbyProjectId(pageNumber: any, data: any, id: any, user_id: any,searchkey:any) {
     return this.http.get(
-      `${this.baseurl}/main/taskdetail/?page_number=${pageNumber}&data_per_page=${data}&project_id=${id}&user_id=${user_id}`
+      `${this.baseurl}/main/taskdetail/?page_number=${pageNumber}&data_per_page=${data}&project_id=${id}&user_id=${user_id}&search_key=${searchkey}`
     );
   }
   getProjectByUserId(pageNumber: any, data: any, id: any) {
