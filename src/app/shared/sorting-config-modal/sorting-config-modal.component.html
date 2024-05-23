@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-header">
+    <span><b>{{sortTitle|titlecase}}</b></span>
+    </div>
+    <div class="sorting-options" *ngFor="let item of sortByList">
+        <input type="radio" name="selectedItem" [(ngModel)]="selectedSortValue" [value]="item" (change)="onsortSelect(item)">&nbsp;{{ item.name }}
+      </div>
+    <div class="row mt-1 mb-1">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 px-0 d-flex justify-content-evenly">
+            <button class="btn sort-reset-btn" type="button" (click)="sortReset()">Reset</button>
+            <button class="btn" type="button" (click)="applySort()">Apply</button>
+        </div>
+    </div>
+</div>

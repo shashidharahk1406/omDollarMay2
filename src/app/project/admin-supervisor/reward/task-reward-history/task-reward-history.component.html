@@ -29,9 +29,9 @@
                 <thead >
                     <tr >
                       <th scope="col">Sl. No.</th>
-                      <th scope="col">Task Name  <i  *ngIf="arrow" (click)="sort('asc','task__task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task__task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col">Volunteer  <i  *ngIf="arrow" (click)="sort('asc','rewarded_to__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','rewarded_to__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col">OmDollar (OmDollar) </th>
+                      <th scope="col">Task Name   <i class="fa-solid fa-sliders" [class.active]="sortValue=='task__task_name'" id="sortIcon" (click)="applySort('task__task_name','Task Name')"></i></th>
+                      <th scope="col">Volunteer   <i class="fa-solid fa-sliders" [class.active]="sortValue=='rewarded_to__user_name'" id="sortIcon" (click)="applySort('rewarded_to__user_name','Volunteer')"></i></th>
+                      <th scope="col">OmDollar (OmDollar)  <i class="fa-solid fa-sliders" [class.active]="sortValue=='wallet_amount'" id="sortIcon" (click)="applySort('wallet_amount','OmDollar')"></i></th>
                       <!-- <th scope="col">Action</th> -->
                       <!-- <th scope="col">Delete</th> -->
                     </tr>
@@ -42,8 +42,8 @@
                   </tr>
                   </tbody>
                   <tbody  *ngIf="allReward.length!=0">
-                    <tr *ngFor='let item of allReward|sort:directionValue:sortValue; let i=index' >
-                     <td>{{getContinuousIndex(i)}}</td>
+                    <tr *ngFor='let item of allReward;let i=index' >
+                     <td>{{getContinuousIndex(id)}}</td>
                      <td>{{item.task__task_name }}</td>
                      <td>{{item.rewarded_to__user_name }}</td>
                      <td>{{item.wallet_amount }}</td>

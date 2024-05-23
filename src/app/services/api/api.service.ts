@@ -51,9 +51,9 @@ export class ApiService {
   editProject(data: any) {
     return this.http.put(`${this.baseurl}/main/projects/`, data);
   }
-  getProject(point: any, user: any, id: any, pageNumber: any, data: any,searchKey:any) {
+  getProject(point: any, user: any, id: any, pageNumber: any, data: any,searchKey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/${point}/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchKey}`
+      `${this.baseurl}/main/${point}/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchKey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getAllProject() {
@@ -75,9 +75,9 @@ export class ApiService {
   createProjectBid(data: any) {
     return this.http.post(`${this.baseurl}/main/projectbid/`, data);
   }
-  getBidProject(pageNumber: any, data: any, id: any, user: any,searchkey:any) {
+  getBidProject(pageNumber: any, data: any, id: any, user: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/projectbid/?page_number=${pageNumber}&data_per_page=${data}&${user}=${id}&search_key=${searchkey}`
+      `${this.baseurl}/main/projectbid/?page_number=${pageNumber}&data_per_page=${data}&${user}=${id}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getAllBidProject() {
@@ -130,16 +130,16 @@ export class ApiService {
   }
   // Rate Card
   //Submittals
-  getSubmittals(user: any, id: any, pageNumber: any, data: any,searchkey:any) {
+  getSubmittals(user: any, id: any, pageNumber: any, data: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/submittalsbyowner_and_volunteer/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}`
+      `${this.baseurl}/main/submittalsbyowner_and_volunteer/?${user}=${id}&page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getSubmittalsbyId(id: any) {
     return this.http.get(`${this.baseurl}/main/submittals/?project_id=${id}`);
   }
-  getSubmittalsbyIdandPagination(id: any,searchkey:any) {
-    return this.http.get(`${this.baseurl}/main/submittals/?project_id=${id}&search_key=${searchkey}`);
+  getSubmittalsbyIdandPagination(id: any,searchkey:any,sortColumn:any,sortDirection:any) {
+    return this.http.get(`${this.baseurl}/main/submittals/?project_id=${id}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`);
   }
   getAllSubmittals() {
     return this.http.get(`${this.baseurl}/main/submittals/`);
@@ -152,17 +152,17 @@ export class ApiService {
   }
   //Submittals
   //ProjectManagement
-  getBidManagement(user: any, id: any, pageNumber: any, data: any,searchkey:any) {
+  getBidManagement(user: any, id: any, pageNumber: any, data: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/bidprojectManagement/${user}/${id}/?page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}`
+      `${this.baseurl}/main/bidprojectManagement/${user}/${id}/?page_number=${pageNumber}&data_per_page=${data}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getAllProjectManagement() {
     return this.http.get(`${this.baseurl}/main/bidprojectManagement/`);
   }
-  getTaskDetailsByProjectId(id: any, page: any, data: any, status: any) {
+  getTaskDetailsByProjectId(id: any, page: any, data: any, status: any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/taskfiterbystatus/?page_number=${page}&data_per_page=${data}&project_id=${id}&task_status=${status}`
+      `${this.baseurl}/main/taskfiterbystatus/?page_number=${page}&data_per_page=${data}&project_id=${id}&task_status=${status}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   approveTask(data: any) {
@@ -174,14 +174,14 @@ export class ApiService {
       data
     );
   }
-  getRewardAdmin(id: any, page: any, pageSize: any,searchKey:any) {
+  getRewardAdmin(id: any, page: any, pageSize: any,searchKey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/getdetailrewards/?user_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}`
+      `${this.baseurl}/main/getdetailrewards/?user_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
-  getRewardAdminbyTask(id: any, page: any, pageSize: any,searchKey:any) {
+  getRewardAdminbyTask(id: any, page: any, pageSize: any,searchKey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/getdetailrewards/?project_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}`
+      `${this.baseurl}/main/getdetailrewards/?project_id=${id}&page_number=${page}&data_per_page=${pageSize}&search_key=${searchKey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   //ProjectManagement
@@ -194,9 +194,9 @@ export class ApiService {
     );
   }
 
-  getApprovedProject(page: any, data: any, id: any, status: any,searchkey:any) {
+  getApprovedProject(page: any, data: any, id: any, status: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/studentmanagement/?page_number=${page}&data_per_page=${data}&user_id=${id}&status_approval=${status}&search_key=${searchkey}`
+      `${this.baseurl}/main/studentmanagement/?page_number=${page}&data_per_page=${data}&user_id=${id}&status_approval=${status}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
 
@@ -231,9 +231,9 @@ export class ApiService {
       `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}`
     );
   }
-  getProjectBidsByUserId(pageNumber: any, data: any, id: any,owner_id:any,location:any,searchkey:any) {
+  getProjectBidsByUserId(pageNumber: any, data: any, id: any,owner_id:any,location:any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}&search_key=${searchkey}`
+      `${this.baseurl}/main/projectbid/?volunteer_id=${id}&page_number=${pageNumber}&data_per_page=${data}&project_owner=${owner_id}&location=${location}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getRewardProject(user: any, pageNumber: any, data: any, id: any,searchkey:any) {
@@ -249,9 +249,9 @@ export class ApiService {
       `${this.baseurl}/main/budgetamountallocation/?project_id=${id}`
     );
   }
-  getReward(id: any, page: any, pageSize: any,searchKey:any) {
+  getReward(id: any, page: any, pageSize: any,searchKey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/rewardbystudent/?page_number=${page}&data_per_page=${pageSize}&user_id=${id}&search_key=${searchKey}`
+      `${this.baseurl}/main/rewardbystudent/?page_number=${page}&data_per_page=${pageSize}&user_id=${id}&search_key=${searchKey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getRewardByProjectIdStudent(
@@ -280,9 +280,9 @@ export class ApiService {
   }
 
   //  Super Admin
-  getUser(page: any, pageSize: any,searchkey:any) {
+  getUser(page: any, pageSize: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/customuser/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}`
+      `${this.baseurl}/main/customuser/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
   getRoleId() {
@@ -312,9 +312,9 @@ export class ApiService {
 
   //Project Overview -Super Admin
 
-  getAllProjectsSuperAdmin(page: any, pageSize: any,searchkey:any) {
+  getAllProjectsSuperAdmin(page: any, pageSize: any,searchkey:any,sortColumn:any,sortDirection:any) {
     return this.http.get(
-      `${this.baseurl}/main/getprojectdetails/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}`
+      `${this.baseurl}/main/getprojectdetails/?page_number=${page}&data_per_page=${pageSize}&search_key=${searchkey}&sort_field=${sortColumn}&sort_direction=${sortDirection}`
     );
   }
 

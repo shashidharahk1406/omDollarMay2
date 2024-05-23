@@ -5,6 +5,8 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { ViewChild } from '@angular/core';
 import { SortPipe } from 'src/app/pipe/sort/sort.pipe';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { SortingConfigModalComponent } from 'src/app/shared/sorting-config-modal/sorting-config-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-list',
@@ -24,7 +26,7 @@ export class UserListComponent implements OnInit {
   allRateCard:any=[]
   allStatus:any=[]
   private searchTerms = new Subject<string>();
-  constructor(private api:ApiService,private route:Router) { 
+  constructor(private api:ApiService,private route:Router,public dialog: MatDialog) { 
     this.user_id=localStorage.getItem('user_id')
     this.role=localStorage.getItem('role')
   }
@@ -34,7 +36,7 @@ export class UserListComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) =>this.api.getUser(this.currentPage+1,this.pageSize,query))).subscribe((resp:any)=>{
+      switchMap((query: string) =>this.api.getUser(this.currentPage+1,this.pageSize,query,this.sortValue,this.directionValue))).subscribe((resp:any)=>{
         this.allUser= resp.result.data;
         this.totalPageLength=resp.result.pagination.len_of_data;
         this.totalDataCount=resp.result.pagination.total_len_of_data;
@@ -46,21 +48,9 @@ export class UserListComponent implements OnInit {
       )
   }
   arrow:boolean=false
-  directionValue:any='asc'
+  directionValue:any=''
 
-  sortValue:any='project_name'
-  sort(direction:any,value:any){
-    if(direction=='desc'){
-      this.arrow=true
-      this.directionValue= direction
-      this.sortValue= value
-    }
-    else{
-      this.arrow=false
-      this.directionValue= direction
-      this.sortValue= value
-    }
-  }
+  sortValue:any=''
   pageChanged(event: any) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
@@ -68,7 +58,7 @@ export class UserListComponent implements OnInit {
     }
   getProject(){
     if(this.role =="Super Admin"){
-this.api.getUser(this.currentPage+1,this.pageSize,this.searchProject).subscribe((resp:any)=>{
+this.api.getUser(this.currentPage+1,this.pageSize,this.searchProject,this.sortValue,this.directionValue).subscribe((resp:any)=>{
       this.allUser= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data;
       this.totalDataCount=resp.result.pagination.total_len_of_data;
@@ -102,5 +92,20 @@ this.api.getUser(this.currentPage+1,this.pageSize,this.searchProject).subscribe(
   }
   onSearchInput(): void {
     this.searchTerms.next(this.searchProject);
+  }
+
+  applySort(column:any,title:any){
+    this.sortValue=column;
+    const dialogRef = this.dialog.open(SortingConfigModalComponent, {
+      disableClose: true,
+      data: {'title':title,'sort_field': column, 'sort_direction': this.directionValue},
+      panelClass:'sort-modal-popup'
+  })
+  dialogRef.afterClosed().subscribe((resp:any) => {
+    console.log("Form Sort",resp);
+    this.sortValue=resp.sort_field;
+    this.directionValue=resp.sort_direction;
+    this.getProject();
+  });
   }
 }

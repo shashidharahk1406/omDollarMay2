@@ -24,11 +24,11 @@
                 <thead >
                     <tr >
                       <!-- <th scope="col">Sl. No.</th> -->
-                      <th scope="col"> Name  <i  *ngIf="arrow" (click)="sort('asc','user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col"> Email Id  <i  *ngIf="arrow" (click)="sort('asc','email')" class="fa fa-sort-up"></i><i (click)="sort('desc','email')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col"> Role  <i  *ngIf="arrow" (click)="sort('asc','role_id__name')" class="fa fa-sort-up"></i><i (click)="sort('desc','role_id__name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col"> Organization  <i  *ngIf="arrow" (click)="sort('asc','name_of_organisation')" class="fa fa-sort-up"></i><i (click)="sort('desc','name_of_organisation')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-                      <th scope="col"> Country <i  *ngIf="arrow" (click)="sort('asc','address_of_organisation')" class="fa fa-sort-up"></i><i (click)="sort('desc','address_of_organisation')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                      <th scope="col"> Name <i class="fa-solid fa-sliders" [class.active]="sortValue=='user_name'" id="sortIcon" (click)="applySort('user_name','Name')"></i></th>
+                      <th scope="col"> Email Id   <i class="fa-solid fa-sliders" [class.active]="sortValue=='email'" id="sortIcon" (click)="applySort('email','Email Id')"></i></th>
+                      <th scope="col"> Role   <i class="fa-solid fa-sliders" [class.active]="sortValue=='role_id__name'" id="sortIcon" (click)="applySort('role_id__name','Role')"></i></th>
+                      <th scope="col"> Organization   <i class="fa-solid fa-sliders" [class.active]="sortValue=='name_of_organisation'" id="sortIcon" (click)="applySort('name_of_organisation','Organization')"></i></th>
+                      <th scope="col"> Country <i class="fa-solid fa-sliders" [class.active]="sortValue=='address_of_organisation'" id="sortIcon" (click)="applySort('address_of_organisation','Country')"></i></th>
                       <!-- <th style="width: 80px;" scope="col"  *ngIf="role=='Super Admin'">Edit</th> -->
                       <th  style="width: 80px;" scope="col" *ngIf="role=='Super Admin'">Delete</th>
                     </tr>
@@ -39,7 +39,7 @@
                   </tr>
                   </tbody>
                   <tbody  >
-                    <tr *ngFor='let item of allUser|sort:directionValue:sortValue; let i=index' >
+                    <tr *ngFor='let item of allUser; let i=index' >
                      <!-- <td>{{getContinuousIndex(i)}}</td> -->
                      <td>{{item.user_name}}</td>
                      <td>{{item.email }}</td>

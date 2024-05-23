@@ -26,13 +26,13 @@
             <thead >
                 <tr >
                   <th scope="col">Sl No.</th>
-                  <th scope="col">Project Id</th>
-                  <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col"> Project Id <i class="fa-solid fa-sliders" [class.active]="sortValue=='p_id'" id="sortIcon" (click)="applySort('p_id','Project Id')"></i></th>
+                  <th scope="col"> Project Name <i class="fa-solid fa-sliders" [class.active]="sortValue=='project_name'" id="sortIcon" (click)="applySort('project_name','Project Name')"></i></th>
                   <!-- <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                   <!-- <th scope="col">Outcome Required <i  *ngIf="arrow" (click)="sort('asc','outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                   <!-- <th style="min-width: 180px;" scope="col">Task Hours <i  *ngIf="arrow" (click)="sort('asc','estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-                  <th scope="col">Elected Date </th>
-                  <th scope="col">Volunteer Count (No.)</th>
+                  <th scope="col">Elected Date <i class="fa-solid fa-sliders" [class.active]="sortValue=='bidding_date'" id="sortIcon" (click)="applySort('bidding_date','Elected Date')"></i></th>
+                  <th scope="col">Volunteer Count (No.) <i class="fa-solid fa-sliders" [class.active]="sortValue=='bidding_list_count'" id="sortIcon" (click)="applySort('bidding_list_count','Volunteer Count')"></i></th>
                   <th scope="col">Action</th>
                   <!-- <th scope="col">CV</th> -->
                 </tr>
@@ -43,7 +43,7 @@
               </tr>
               </tbody>
               <tbody  *ngIf="allSubmittals.length!=0">
-                <tr *ngFor='let item of allSubmittals|sort:directionValue:sortValue; let i=index' >
+                <tr *ngFor='let item of allSubmittals; let i=index' >
                  <td>{{getContinuousIndex(i)}}</td>
                  <td>{{item.p_id }}</td>
                  <td>{{item.project_name }}</td>

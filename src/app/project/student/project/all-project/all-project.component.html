@@ -37,18 +37,18 @@
         <thead >
             <tr >
               <th scope="col">Sl No.</th>
-              <th scope="col">Project Id</th>
-              <th scope="col">Project Name <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
-              <th scope="col">Project Owner</th>
-              <th scope="col">Project Supervisor</th>
+              <th scope="col">Project Id <i class="fa fa-sliders" [class.active]="sortValue=='project_id__p_id'" id="sortIcon" (click)="applySort('project_id__p_id','Project Id')"></i></th>
+              <th scope="col">Project Name <i class="fa fa-sliders" [class.active]="sortValue=='project_id__project_name'"  id="sortIcon" (click)="applySort('project_id__project_name','Project Name')"></i></th>
+              <th scope="col">Project Owner <i class="fa fa-sliders" [class.active]="sortValue=='project_id__user_ref__user_name'"  id="sortIcon" (click)="applySort('project_id__user_ref__user_name','Project Owner')"></i></th>
+              <th scope="col">Project Supervisor <i class="fa fa-sliders" [class.active]="sortValue=='project_id__supervisor__user_name'"  id="sortIcon" (click)="applySort('project_id__supervisor__user_name','Project Supervisor')"></i></th>
               <!-- <th scope="col">Outcome Required </th> -->
-              <th scope="col">Estimated Task Hours (Hours)</th>
+              <th scope="col">Estimated Task Hours (Hours) <i class="fa fa-sliders" [class.active]="sortValue=='project_id__estimated_hours'"  id="sortIcon" (click)="applySort('project_id__estimated_hours','Estimated Task Hours')"></i></th>
               <!-- <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','project__Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-              <th scope="col">OmDollar Rate (OmDollar/hour)</th>
-              <th scope="col">Location</th>
+              <th scope="col">OmDollar Rate (OmDollar/hour) <i class="fa fa-sliders" [class.active]="sortValue=='project_id__hourly_rate'"  id="sortIcon" (click)="applySort('project_id__hourly_rate','OmDollar Rate')"></i></th>
+              <th scope="col">Location <i class="fa fa-sliders" [class.active]="sortValue=='project_id__location'"  id="sortIcon" (click)="applySort('project_id__location','Location')"></i></th>
 
               <!-- <th scope="col">No. of People Required <i  *ngIf="arrow" (click)="sort('asc','project__total_people')" class="fa fa-sort-up"></i><i (click)="sort('desc','project__total_people')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-              <th style="width: 50px;" scope="col">Status</th>
+              <th style="width: 50px;" scope="col">Status <i class="fa fa-sliders" [class.active]="sortValue=='status_in'"  id="sortIcon" (click)="applySort('status_in','Status')"></i></th>
              
             </tr>
           </thead>
@@ -58,7 +58,7 @@
           </tr>
           </tbody>
           <tbody  *ngIf="allBidProject.length!=0">
-            <tr *ngFor='let item of allBidProject|sort:directionValue:sortValue ; let i=index' >
+            <tr *ngFor='let item of allBidProject; let i=index' >
              <td>{{getContinuousIndex(i)}}</td>
              <td>{{item.project_id__p_id}}</td>
              <td>{{item.project_id__project_name}}</td>

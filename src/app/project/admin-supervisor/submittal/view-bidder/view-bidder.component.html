@@ -39,7 +39,7 @@
               <thead >
                   <tr >
                     <!-- <th scope="col">Sl. No.</th> -->
-                    <th scope="col">Elector Name  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Elected Name <i class="fa-solid fa-sliders" [class.active]="sortValue=='user__user_name'" id="sortIcon" (click)="applySort('user__user_name','Elected Name')"></i></th>
                     <!-- <th scope="col">Address <i  *ngIf="arrow" (click)="sort('asc','Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">History of Working <i  *ngIf="arrow" (click)="sort('asc','outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th scope="col">Rating  <i  *ngIf="arrow" (click)="sort('asc','estimation_completion_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimation_completion_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
@@ -53,7 +53,7 @@
                 </tr>
                 </tbody>
                 <tbody  *ngIf="allBidders.length!=0">
-                  <tr *ngFor='let item of allBidders|sort:directionValue:sortValue; let i=index' >
+                  <tr *ngFor='let item of allBidders;let i=index' >
                    <!-- <td>{{getContinuousIndex(i)}}</td> -->
                    <td>{{item.user__user_name }} </td>
                    <!-- <td>{{item.Skillset}}</td>

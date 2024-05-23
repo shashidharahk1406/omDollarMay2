@@ -1,0 +1,43 @@
+.card{
+    background: transparent;
+    border: none;
+}
+.card-header{
+  background: transparent;
+  margin-bottom: 10px;
+  text-align: start;
+  padding: 0px;
+}
+.btn{
+
+    color: #005483 ;
+    font-size: 12px !important;
+    padding:2px 10px !important;
+    width: auto;
+  }
+  .sort-reset-btn{
+    background-color: transparent;
+    color: #000;
+    font-size: 12px !important;
+    padding:2px 10px !important;
+    width: auto;
+  }
+  .sorting-options{
+    display: flex;
+    margin: 2px 5px;
+    font-size: 12px;
+  justify-content: start;
+  align-items: center;
+  }
+  input[type=radio]{
+    height: 12px;
+    width: 12px;
+    outline:none;
+    border: none;
+  }
+  .sort-modal-popup{
+    padding: 0px !important;
+  }
+  span{
+    font-size: 14px;
+  }

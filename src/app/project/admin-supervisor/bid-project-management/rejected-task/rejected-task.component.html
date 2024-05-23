@@ -5,12 +5,12 @@
             <thead >
                 <tr >
                   <!-- <th scope="col">Sl. No.</th> -->
-                  <th scope="col">Task  <i  *ngIf="arrow" (click)="sort('asc','task_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','task_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">Task  <i class="fa-solid fa-sliders" [class.active]="sortValue=='task_name'" id="sortIcon" (click)="applySort('task_name','Task Name')"></i></th>
                   <!-- <th scope="col">Done by  <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-                  <th scope="col">Volunteer <i  *ngIf="arrow" (click)="sort('asc','user__user_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','user__user_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                  <th scope="col">Volunteer <i class="fa-solid fa-sliders" [class.active]="sortValue=='user__user_name'" id="sortIcon" (click)="applySort('user__user_name','Volunteer')"></i></th>
                   <!-- <th scope="col">Start Time <i  *ngIf="arrow" (click)="sort('asc','start_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','start_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                   <th scope="col">End Time  <i  *ngIf="arrow" (click)="sort('asc','end_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','end_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-                  <th scope="col">Reason </th>
+                  <th scope="col">Reason <i class="fa-solid fa-sliders" [class.active]="sortValue=='comment'" id="sortIcon" (click)="applySort('comment','Reason')"></i></th>
                   <th scope="col">View TimeSheet</th>
                 </tr>
               </thead>
@@ -20,7 +20,7 @@
               </tr>
               </tbody>
               <tbody  *ngIf="allTasks.length!=0">
-                <tr *ngFor='let item of allTasks |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index' >
+                <tr *ngFor='let item of allTasks; let i=index' >
                  <!-- <td>{{getContinuousIndex(i)}}</td> -->
                  <td>{{item.task_name }}</td>
                  <!-- <td>{{item.user__user_name }}</td> -->

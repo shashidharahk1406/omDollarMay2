@@ -24,14 +24,14 @@
               <thead >
                   <tr >
                     <th scope="col">Sl No.</th>
-                    <th scope="col">Project Id</th>
-                    <th scope="col">Project Name  <i  *ngIf="arrow" (click)="sort('asc','project_id__project_name')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__project_name')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
+                    <th scope="col">Project Id <i class="fa-solid fa-sliders" [class.active]="sortValue=='project_id__p_id'" id="sortIcon" (click)="applySort('project_id__p_id','Project Id')"></i></th>
+                    <th scope="col">Project Name  <i class="fa-solid fa-sliders" [class.active]="sortValue=='project_id__project_name'" id="sortIcon" (click)="applySort('project_id__project_name','Project Name')"></i></th>
                     <!-- <th scope="col">Outcome Required <i  *ngIf="arrow" (click)="sort('asc','project_id__outcome_required')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__outcome_required')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                     <!-- <th scope="col">Estimated Hours <i  *ngIf="arrow" (click)="sort('asc','project_id__estimated_hours')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__estimated_hours')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                     <!-- <th scope="col">Estimated Value Rate <i  *ngIf="arrow" (click)="sort('asc','estimated_rate_id')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimated_rate_id')" *ngIf="!arrow" class="fa fa-sort-down"></i></th>
                     <th style="min-width: 180px;" scope="col">Estimation Completion Time <i  *ngIf="arrow" (click)="sort('asc','estimation_completion_time')" class="fa fa-sort-up"></i><i (click)="sort('desc','estimation_completion_time')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                     <!-- <th scope="col">Skillset <i  *ngIf="arrow" (click)="sort('asc','project_id__Skillset')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_id__Skillset')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
-                    <th scope="col">OmDollar Rate (omdollar/hour)</th>
+                    <th scope="col">OmDollar Rate (omdollar/hour) <i class="fa-solid fa-sliders" [class.active]="sortValue=='project_id__hourly_rate'" id="sortIcon" (click)="applySort('project_id__hourly_rate','OmDollar Rates')"></i></th>
                     <!-- <th scope="col">Status <i  *ngIf="arrow" (click)="sort('asc','project_status_id')" class="fa fa-sort-up"></i><i (click)="sort('desc','project_status_id')" *ngIf="!arrow" class="fa fa-sort-down"></i></th> -->
                     <th scope="col">Action</th>
                     <!-- <th scope="col">Delete</th> -->
@@ -43,7 +43,7 @@
                 </tr>
                 </tbody>
                 <tbody  *ngIf="allBidManagement.length!=0">
-                  <tr *ngFor='let item of allBidManagement|sort:directionValue:sortValue; let i=index' >
+                  <tr *ngFor='let item of allBidManagement;let i=index' >
                    <td>{{getContinuousIndex(i)}}</td>
                    <td>{{item.project_id__p_id }}</td>
                    <td>{{item.project_id__project_name }}</td>
