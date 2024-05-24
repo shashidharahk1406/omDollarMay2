@@ -76,7 +76,7 @@ export class ApprovedTaskComponent implements OnInit {
     console.log("Form Sort",resp);
     this.sortValue=resp.sort_field;
     this.directionValue=resp.sort_direction;
-    this.getTask()
+    this.getTask();
   });
   }
 }

@@ -19,7 +19,7 @@
               </tr>
               </tbody>
               <tbody  *ngIf="allTasks.length!=0">
-                <tr *ngFor='let item of allTasks |CustomFilter:searchTask |sort:directionValue:sortValue; let i=index' >
+                <tr *ngFor='let item of allTasks; let i=index' >
                  <!-- <td>{{getContinuousIndex(i)}}</td> -->
                  <td>{{item.task_name }}</td>
                  <!-- <td>{{item.user__user_name }}</td> -->
