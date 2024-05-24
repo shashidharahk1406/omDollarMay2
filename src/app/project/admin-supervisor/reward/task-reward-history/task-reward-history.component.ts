@@ -35,7 +35,7 @@ export class TaskRewardHistoryComponent implements OnInit {
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
       distinctUntilChanged(), // Ignore if next search term is the same as the previous one
-      switchMap((query: string) => this.api.getRewardAdminbyTask(this.id,this.currentPage+1,this.pageSize,query,this.sortValue,this.directionValue))).subscribe((resp:any)=>{
+      switchMap((query: string) => this.api.getRewardAdminbyTask(this.projectId,this.currentPage+1,this.pageSize,query,this.sortValue,this.directionValue))).subscribe((resp:any)=>{
         this.allReward= resp.result.data;
       this.totalPageLength=resp.result.pagination.len_of_data
       },(error:any)=>{
